@@ -1,0 +1,86 @@
+//全網_側欄底部 (倒數第二)
+var pbjs = pbjs || {};
+pbjs.que = pbjs.que || [],
+(function (config) {
+    var pbjs = window.pbjs,
+        code = config.code,
+        adUnitSizes = config.adUnitSizes,
+        adUnits = [{/*3.x update start*/
+            code: code,
+            mediaTypes: {
+                banner: {
+                    sizes: adUnitSizes
+                }
+            },
+            bids: config.bids
+        }],/*3.x update end*/
+        bidsBackHandler = function () {
+            bidsBackHandler = function () {};
+            var iframe = document.getElementById(code + '_frame'),
+                iframeDoc = iframe.contentWindow.document;
+                params = pbjs.getAdserverTargetingForAdUnitCode(code);
+            iframeDoc.open('text/html', 'replace');
+            if (params && params.hb_adid && params.hb_pb && params.hb_pb > config.rp) {
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>');//margin, padding 歸0
+                pbjs.renderAd(iframeDoc, params.hb_adid);
+            } else {
+                iframe.width = adUnitSizes[0][0];
+                iframe.height = adUnitSizes[0][1];
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>' + config.snippet);//margin, padding 歸0
+                iframeDoc.close();
+            }
+        };
+
+    pbjs.que.push(function() {
+        pbjs.setConfig({
+			appier: {'farm': 'tw'},/*Appier start*/
+			userSync: {
+				userIds: [{
+					name: "pubCommonId",
+					storage: {
+						type: "cookie",
+						name: "_pubcid",
+						expires: 365
+					}
+				}]
+			},/*Appier end*/
+            bidderTimeout: config.bidderTimeout,
+            priceGranularity: config.priceGranularity
+        });
+        pbjs.requestBids({
+            bidsBackHandler: bidsBackHandler,
+            adUnits: adUnits
+        });
+    });
+})({
+    bidderTimeout: 3000,/*bidderTimeout*/
+    priceGranularity: {
+        buckets: [{
+            min: 0.00,
+            max: 999.00,
+            increment: 0.01
+        }]
+    },
+    code: 'ettoday-prebid-pc-sidebar-2',/*slotid*/
+    //rp: 0.1,
+    //rp: 0.04, /*cpm*/
+    rp: 0.041, /*cpm*/
+    adUnitSizes: [ /*ad sizes*/
+      [300, 250]
+    ],
+    bids: [ /*bidders*/
+		{bidder:'aol', params:{dcn:'8a969c7d017676f2e531f58bf479009a', pos:'pc_mrec_sidebar_last2', ext: {}}},
+		{bidder:'appier',params:{hzid:'WUIeWzOp'}},
+		{bidder: 'appnexus', params: {placementId: '13516946'}},
+		//{bidder: 'bridgewell', params: {ChannelID: 'CgUxNjAxNhIBMRoEMjA0MCIHZXR0b2RheSoLCKwCEPoBGgE5IAE'}},
+		{bidder:'bridgewell',params:{cid:16016}},
+		{bidder:'criteo',params:{zoneId:'943528'}},
+		//{bidder:'criteo',params:{zoneId:'1292433'}},
+		//{bidder:'rtbhouse',params:{region:'prebid-asia',publisherId:'WsOc5I3j7RUchAHLGtto'}},
+		{bidder:'rubicon',params:{accountId:'19338',siteId:'220714',zoneId:'1084534'}}
+    ],
+    snippet: '\u003cscript async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"\u003e\u003c/script\u003e\r\n\u003cins class=\"adsbygoogle\" style=\"display:inline-block;width:300px;height:250px\" data-ad-client=\"ca-pub-7504183592568612\" data-ad-slot=\"3136708423\"\u003e\u003c/ins\u003e\r\n\u003cscript\u003e(adsbygoogle = window.adsbygoogle || []).push({});\u003c/script\u003e'
+    //snippet: '\u003cscript async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js\"\u003e\u003c/script\u003e\r\n\u003cins class=\"adsbygoogle\" style=\"display:inline-block;width:300px;height:250px\" data-ad-client=\"ca-pub-7504183592568612\" data-ad-slot=\"2973976012\"\u003e\u003c/ins\u003e\r\n\u003cscript\u003e(adsbygoogle = window.adsbygoogle || []).push({});\u003c/script\u003e'
+	//snippet: "\u003cscript src=\"//static.ettoday.net/jquery/jquery.js\"\u003e\u003c/script\u003e\r\n\u003cscript src=\"//static.ettoday.net/jquery/jquery.cookie.js\"\u003e\u003c/script\u003e\r\n\u003cdiv id=\"clickforce-2371\" style=\"display:none\"\u003e\u003c/div\u003e\r\n\u003cscript\u003e\r\nvar myCountry = $.cookie(\"et_client_country\"); \r\nif(myCountry==null || (myCountry!=\"CN\" \u0026\u0026 myCountry!=\"cn\")){\r\nvar div = document.getElementById(\"clickforce-2371\");\r\ndiv.innerHTML += \"\u003cins class=clickforceads style=display:inline-block;width:300px;height:250px data-ad-zone=2371\u003e\u003c/ins\u003e\";\r\nvar script = document.createElement(\"script\");\r\nscript.async = true;\r\nscript.src = \"//cdn.doublemax.net/js/init.js\";\r\ndiv.appendChild(script);\r\ndiv.style.display = \"block\";\r\n}\r\n\u003c/script\u003e"
+	//snippet: "\u003cscript src=\"//static.ettoday.net/jquery/jquery.js\"\u003e\u003c/script\u003e\r\n\u003cscript src=\"//static.ettoday.net/jquery/jquery.cookie.js\"\u003e\u003c/script\u003e\r\n\u003cdiv id=\"clickforce-2373\" style=\"display:none\"\u003e\u003c/div\u003e\r\n\u003cscript\u003e\r\nvar myCountry = $.cookie(\"et_client_country\"); \r\nif(myCountry==null || (myCountry!=\"CN\" \u0026\u0026 myCountry!=\"cn\")){\r\nvar div = document.getElementById(\"clickforce-2373\");\r\ndiv.innerHTML += \"\u003cins class=clickforceads style=display:inline-block;width:300px;height:250px data-ad-zone=2373\u003e\u003c/ins\u003e\";\r\nvar script = document.createElement(\"script\");\r\nscript.async = true;\r\nscript.src = \"//cdn.doublemax.net/js/init.js\";\r\ndiv.appendChild(script);\r\ndiv.style.display = \"block\";\r\n}\r\n\u003c/script\u003e"
+});

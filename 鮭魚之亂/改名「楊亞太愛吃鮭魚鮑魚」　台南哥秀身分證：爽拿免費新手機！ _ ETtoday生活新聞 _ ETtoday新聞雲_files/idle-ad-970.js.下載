@@ -1,0 +1,105 @@
+//閒置廣告=========================================
+var idleAdTags = '<div class="idleAd" style="display:none;position:fixed; width:100%; height:1500px; left:0px; top:0px; z-index:9999999;">\
+					<div class="inner" style="width:990px;background-color: #fff; border:1px solid #ccc; padding:5px 5px 5px 5px; margin:5px auto 0 auto; border-radius:5px; position:relative; z-index:2;">\
+						<p style="color:blue;margin-bottom:0px;font-size:15px">本網頁已閒置超過 3 分鐘。請捲動滑鼠滾輪，或按鍵盤任意鍵，或點擊任一空白處，即可回到網頁。</p>\
+						<div class="box_0" style="position:relative;top:3px;left:0px;margin-bottom:5px;"></div>\
+						<span class="btn_close" style="display:block; font-size:16px;color:red;font-weight:bold;width:90px; height:20px; position:absolute; right:10px; top:10px; cursor:pointer;">【關閉 X】</span>\
+					</div>\
+					<div class="overlap" style="width:100%; height:1500px; background-color:#000; z-index:1; filter:alpha(opacity=60); opacity:0.6; position:absolute; left:0px; top:0px; "><!--覆蓋廣告 --></div>\
+				</div>';
+
+$(function(){
+
+	//插入結構
+	$("body").append(idleAdTags);
+	
+	jQuery.browser = {};
+	jQuery.browser.mozilla = /mozilla/.test(navigator.userAgent.toLowerCase()) && !/webkit/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.webkit = /webkit/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.opera = /opera/.test(navigator.userAgent.toLowerCase());
+	jQuery.browser.msie = /msie/.test(navigator.userAgent.toLowerCase());
+
+	var ua = window.navigator.userAgent.toLowerCase();
+	jQuery.browser.version = (ua.match( /.(?:rv|it|ra|ie)[\/: ]([\d.]+)/ ) || [0, '0'])[1];
+	var version = jQuery.browser.version;
+	var isIE6 = ua.indexOf("msie 6.0");
+	///var hasVideo = $(".story iframe").length + $(".story object").length + $(".story embed").length + $(".video_box").length; //值為0時，表示網頁中沒有任何影片存在
+	var hasVideo = $(".story iframe").length + $(".story object").length + $(".story embed").length; //值為0時，表示網頁中沒有任何影片存在
+	var hasLiveStream = $('iframe').filter('[src*="livestream.com"]').length;////值為0時，表示網頁中沒有任何 LiveSTrean 影片存在
+	var hasVODPlayer = $('iframe').filter('[src*="ettoday.net/tools/"]').length;////值為0時，表示網頁中沒有任何 VODPlayer 影片存在
+	var hasLivePlayer = $('iframe').filter('[src*="ettoday.net/source/tools/"]').length;////值為0時，表示網頁中沒有任何 LivePlayer 影片存在
+
+	//if ($.cookie("no-idleAd")==null && !ua.match(/iPhone/i) && !ua.match(/iPad/i) && !ua.match(/android/) && isIE6 == -1 && hasVideo == 0 && hasLiveStream == 0 && $(".adE04").length == 0) {//如果沒有 cookie "no-idleAd"，且非iphone,且非ipad，且非android, 且非IE6, 且網頁中沒有影片, 且網頁中沒有 LiveStream, 且沒有影音轟天雷廣告
+	//if ($.cookie("no-idleAd")==null && !ua.match(/iPhone/i) && !ua.match(/iPad/i) && !ua.match(/android/) && isIE6 == -1 && hasVideo == 0 && hasLiveStream == 0 && hasCDNPlayer == 0) {//如果沒有 cookie "no-idleAd"，且非iphone,且非ipad，且非android, 且非IE6, 且網頁中沒有影片, 且網頁中沒有 LiveStream 及 CDNPlayer
+	if ($.cookie("no-idleAd")==null && !ua.match(/iPhone/i) && !ua.match(/iPad/i) && !ua.match(/android/) && isIE6 == -1 && hasLiveStream == 0 && hasLivePlayer == 0) {//如果沒有 cookie "no-idleAd"，且非iphone, 且非ipad，且非android, 且非IE6, 且網頁中沒有 LiveStream & LivePlayer
+		var oIdleAdTimer; //計時器
+		var iIdleAdDrution = 4 * 60 * 1000; //★★★閒置時間：4分鐘
+
+		//計時開始
+		function fnIdleAdCountdown(){
+			clearTimeout(oIdleAdTimer);
+			$(".idleAd").hide();
+			oIdleAdTimer = setTimeout(function(){
+				$(".idleAd .box_0").html('<iframe src="https://www.ettoday.net/events/idle-ad/idle-ad-970-cdb.php" style="width:980px;height:650px!important" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" allowtransparency="true"></iframe>');
+
+				//$(".idleAd .box_0").html('<iframe src="https://www.ettoday.net/events/idle-ad/idle-adx-multiplex-ads.php" style="width:980px;height:650px!important" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" allowtransparency="true"></iframe>');				
+				//$(".idleAd .box_0").html('<iframe src="https://www.ettoday.net/events/idle-ad/idle-google-dable.php" style="width:980px;height:650px!important" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" allowtransparency="true"></iframe>');
+				//$(".idleAd .box_0").html('<iframe src="https://www.ettoday.net/events/idle-ad/idle-dable.php" style="width:980px;height:650px!important" marginwidth="0" marginheight="0" frameborder="0" scrolling="no" allowtransparency="true"></iframe>');
+				$(".idleAd").show();
+			},iIdleAdDrution);
+		};
+		
+		fnIdleAdCountdown();
+		
+		$(".idleAd .btn_close").click(function(){
+			fnIdleAdCountdown();
+		});
+		
+		$("body").click(function(){
+			fnIdleAdCountdown();
+		});
+		
+		$(window).scroll( function(){
+			fnIdleAdCountdown();
+		});
+
+		$(document).keypress(function(e) {
+			fnIdleAdCountdown();
+		});
+	}
+
+	/// 新聞雲首頁每 n 分鐘 refresh =============================================
+	var isETtoday = location.href.indexOf("www.ettoday.net"); //是新聞雲
+	var isDalemon = location.href.indexOf("dalemon"); //是大檸檬
+	var isIndex = $("body.index").length; //是首頁
+
+	//if (isETtoday >0 && isDalemon == -1 && isIndex > 0 && hasVideo == 0 && hasLiveStream == 0 && hasVODPlayer == 0 && hasLivePlayer == 0) {//如果是www.ettoday.net, 且非大檸檬, 且是首頁, 且網頁中沒有影片, 且網頁中沒有 LiveStream 及 VODPlayer  及 LivePlayer
+	if (isETtoday >0 && isDalemon == -1 && isIndex > 0) {//如果是www.ettoday.net, 且非大檸檬, 且是首頁
+		var oRefreshTimer; //計時器
+		var iRefreshDrution = 3 * 60 * 1000; //閒置時間：3分鐘
+
+		//計時開始
+		function fnRefreshCountdown(){
+			clearTimeout(oRefreshTimer);
+			oRefreshTimer = setTimeout(function(){
+				location.href="//www.ettoday.net?from=rf";
+			},iRefreshDrution);
+		};
+
+		fnRefreshCountdown();
+		
+		$("body").click(function(){
+			fnRefreshCountdown();
+		});
+		
+		$(window).scroll( function(){
+			fnRefreshCountdown();
+		});
+
+		$(document).keypress(function(e) {
+			fnRefreshCountdown();
+		});
+		
+	}
+	
+});

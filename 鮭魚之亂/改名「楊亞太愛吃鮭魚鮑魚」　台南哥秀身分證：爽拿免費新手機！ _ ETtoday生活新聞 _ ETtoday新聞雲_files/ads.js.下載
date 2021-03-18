@@ -1,0 +1,26 @@
+
+					var isLazyLoadActive = false;
+					var winBider = null;
+					if(typeof(crtCheck) == "undefined"){
+						var crtCheck = false;
+					}
+					var chtApiUrlList =["https:\/\/api.cf.dsp.hinet.net\/cktagv2.php?UID=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&SID=30689&Tags=2006,2005,2004,2003"];
+					var fljson = {"cpm":0,"bider":"clickforce","tag":"var ct = function(){};var iu = \"\/\/ad.holmesmind.com\/adserver\/i?ut=1616044529&p=2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995\", zi = \"2371\", w = 300, h = 250, ctv = \"<ins class='dcmads' style='display:inline-block;width:300px;height:250px'    data-dcm-placement='N7861.245881CADREON0\/B25377499.296664297'    data-dcm-rendering-mode='script'    data-dcm-https-only    data-dcm-gdpr-applies='gdpr=${GDPR}'    data-dcm-gdpr-consent='gdpr_consent=${GDPR_CONSENT_755}'    data-dcm-addtl-consent='addtl_consent=${ADDTL_CONSENT}'    data-dcm-ltd='false'    data-dcm-resettable-device-id=''    data-dcm-app-id=''    data-dcm-click-tracker = 'https:\/\/ad.holmesmind.com\/adserver\/c?p=2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995&dest='>  <script src='https:\/\/www.googletagservices.com\/dcm\/dcmads.js'><\\\/script><\/ins>\";\r\n(function() { var j = document.createElement('script'); j.src = \"https:\/\/banner-cfnetwork.cdn.hinet.net\/js\/tmp2\/2.js\"; document.body.appendChild(j); })();self.frameElement.width=300;self.frameElement.height=250;\r\n\t\t\t\tsetTimeout(function(){ \r\n\t\t\t\t\tparent.dmpSr_view_log('clickforce','2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995','363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm');\r\n\t\t\t\t\t\r\n\t\t\t\t\tparent.c_tag_mk('img','https:\/\/cf.t.ssp.hinet.net\/pv?p=2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995&cid=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&oid=6995&sid=30689&tid=2006,2005,2004,2003&industry=59');\r\n\t\t\t\t\tif(typeof(parent.CFOutofPageGAM) != 'undefined'){\r\n\t\t\t\t\t\tparent.c_tag_mk('iframe', parent.CFOutofPageGAM);\r\n\t\t\t\t\t}\r\n\t\t\t\t}, 400);\r\n\t\t\tvar a = document.createElement('a');\r\n\t\t\ta.href = 'http:\/\/www.clickforce.com.tw';\r\n\t\t\ta.setAttribute('target', '_blank');\r\n\t\t\tdocument.body.appendChild(a);\r\n\t\t\tvar k = document.createElement('img');\r\n\t\t\tk.src = '\/\/cdn.holmesmind.com\/cf.png';\r\n\t\t\tk.setAttribute('class', 'cflogo');\r\n\t\t\tk.setAttribute('style', 'position:absolute; bottom:0; right:0; z-index:9999999;');\r\n\t\t\tk.setAttribute('width', 23);\r\n\t\t\tk.setAttribute('height', 20);\r\n\t\t\ta.appendChild(k);\r\n\t\tsetTimeout(function(){ \r\n\r\n\t\t\tvar az = document.getElementsByTagName('a');\r\n\t\t\tif(az.length > 0){\r\n\t\t\t\tfor (var i = 0; i < az.length; i++) {\r\n\t\t\t\t\tif(az[i].href.indexOf('ad.doublemax')!=-1 || az[i].href.indexOf('ad.holmesmind.com')!=-1 )\r\n\t\t\t\t\t{\r\n\t\t\t\t\t\taz[i].addEventListener('click', function(){ cfclicktp(); });\r\n\t\t\t\t\t}\t\t\r\n\t\t\t\t}\r\n\t\t\t}\r\n\t\t}, 950);\t\r\n\r\n\t\tct = function(){ \r\n\t\t\t\t\r\n\t\t\tparent.c_tag_mk('img','https:\/\/cf.t.ssp.hinet.net\/click?p=2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995&cid=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&oid=6995&sid=30689&tid=2006,2005,2004,2003&industry=59');\r\n\r\n\t\t};\r\n\r\n\t\tfunction cfclicktp(){\r\n\t\t\t\r\n\t\t\tparent.c_tag_mk('img','https:\/\/cf.t.ssp.hinet.net\/click?p=2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995&cid=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&oid=6995&sid=30689&tid=2006,2005,2004,2003&industry=59');\t\t\t\t\r\n\t\t}\r\n\r\n\t\t\r\n\t\t\tvar p = \"2371:30689:85340:f882b0a392d2dd127c4731770706f458:6995\";\r\n\t\t\tvar setUpAvTrack = true;\r\n\t\t"};
+					var flWithTp = false;
+					var zoneLazyLoad = 1;
+				
+					crtCheck = true;
+				    var winCpm = 0;
+				    var thirdPartyCheckCpm = 0.528;
+				   	var thirdPartyConfig = {"appier":{"price_compare":"0","channel":"Prebid_News"},"bridgewell":{"price_compare":"0"},"criteo":{"price_compare":"1"},"GroupM":{"price_compare":"1"},"rtbHouse":{"price_compare":"1"}};
+				   	thirdPartyConfig["appier_main"] = {"price_compare":"0"};
+				   	thirdPartyConfig["onead"] = {"price_compare":"0"};
+				    var sw = 300;
+					var sh = 250;
+					var sit = "&p=f882b0a392d2dd127c4731770706f458-2371&t=1616044529";
+
+					var sc = document.createElement("script");
+					sc.src = "//cdn.holmesmind.com/js/drawV2.js";
+					document.body.appendChild(sc);						
+						
+				

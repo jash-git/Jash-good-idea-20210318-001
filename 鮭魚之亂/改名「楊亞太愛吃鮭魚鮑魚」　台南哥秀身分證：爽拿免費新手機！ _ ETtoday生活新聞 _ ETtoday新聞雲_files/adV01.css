@@ -1,0 +1,26 @@
+@charset "utf-8";
+/* CSS Document */
+
+.adV01 {margin:10px auto;border-radius:0px;position:relative;background-color:#000;}
+
+/*連結區*/
+.adV01 .link { text-align:center;margin-top:0px;}
+.adV01 .link a {color:#fff;display:block; width:100%;margin:0 auto;font-size:24px;background:url(//static.ettoday.net/ad/adV01/more-big.jpg) no-repeat top right;}
+.adV01 .link a span {display:none}
+
+.adV01 .link2 { text-align:center;margin-top:0px;width:100%;position:absolute;bottom:0;}
+.adV01 .link2 a {color:#fff;display:block; width:100%;height:100%;margin:0 auto;font-size:24p;}
+.adV01 .link2 a span {display:none}
+
+/*for mp4 影片*/
+.myV1 { }
+.myV1 video { border-bottom:0px solid #000; }
+.myV1 .link {background:url(//cache.ettoday.net/ad/jwplayer/transparency.gif) transparent repeat center center;width:100%;position:absolute;top:0px;left:0;z-index:15;}
+.myV1 .link a {display:block;width:100%;height:100%;border:0px solid red}
+
+/*for Youtube 影片*/
+.adV01 .video_box{position:absolute}
+.adV01 .video_box #adV01Player{  }
+.ytVideo.adV01 {}
+.ytVideo.adV01 .link {background:url(//cache.ettoday.net/ad/jwplayer/transparency.gif) transparent repeat center center;width:100%;position:absolute;top:0px;left:0;z-index:15;}
+.ytVideo.adV01 .link a {display:block;width:100%;height:100%;border:0px solid red}

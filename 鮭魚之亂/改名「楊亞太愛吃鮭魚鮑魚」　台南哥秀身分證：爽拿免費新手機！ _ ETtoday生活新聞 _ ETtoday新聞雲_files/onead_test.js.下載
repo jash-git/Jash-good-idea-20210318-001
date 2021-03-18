@@ -1,0 +1,31 @@
+if (typeof pe != "undefined") {
+    var d = new Date();
+    var n = d.getTime();
+    var oadhxr = new XMLHttpRequest();
+    oadhxr.onreadystatechange = function() {
+        if (oadhxr.readyState === 4 && oadhxr.status === 200 && oadhxr.response.length > 0) {
+            var oad = JSON.parse(oadhxr.response);
+            fbList[fbList.length] = {
+                "cpm": oad.price,
+                "bider": "onead",
+                "tag": oad.adm,
+                "impTag": "//ad.holmesmind.com/adserver/tp?tpid=62546&tp=onead&c=" + oad.price,
+                "nurl": oad.nurl,
+                "lurl": oad.lurl
+            }
+            console.log(fbList);
+        }
+    };
+
+    if(parent.getGUDlock){
+        pe = pe.replace("{rfstr}", encodeURIComponent(parent.cfifhref));
+    }else{
+        pe = pe.replace("{rfstr}", encodeURIComponent(location.href));
+    }
+
+    pe = pe.replace("ads.js?", "");
+
+    oadhxr.withCredentials = true;
+    oadhxr.open("POST", "https://proxy-bid.holmesmind.com/proxy_bid/ProxyBidV1.php?" + pe + "&tp=onead", true);
+    oadhxr.send();
+}

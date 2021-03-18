@@ -1,0 +1,44 @@
+//初始化
+function FNadJS05Init(){
+
+	//寫入基礎css==========
+	var adJS05css = '\
+	  .adJS05 { position:relative;margin:0 auto;border:0px solid red;}\
+	  .adJS05 a{ border:0px solid blue;}\
+	  ';
+	adJS05head = document.head || document.getElementsByTagName('head')[0],
+	adJS05style = document.createElement('style');
+	adJS05style.type = 'text/css';
+	adJS05style.appendChild(document.createTextNode(adJS05css));
+	adJS05head.appendChild(adJS05style);
+
+	//當 width 設為 0 時，強制改為 100%
+	if (adJS05Var.width1 === 0){
+		adJS05Var.width1 = "100%";
+	}else{
+		adJS05Var.width1 = ""+adJS05Var.width1+"px";
+	}
+
+	//修正新聞雲div寬度被強制為300
+	$("adJS05-"+ adJS05Var.bannerid +"").parent().css({"width":""+ adJS05Var.width1 +"px"});
+
+	//JQuery 和 JS 寫法二擇一
+	// JQuery 寫法
+	var adJS05HtmlCode = adJS05Var.content;
+	(function(){
+		if(adJS05Var.text1==""){//空值時，自動加廣告點擊層
+
+			var adJS05Div ='<div class="adJS05" id="adJS05-'+ adJS05Var.bannerid +'" style="width:'+ adJS05Var.width1 +';"><a id="adJS05Link-'+adJS05Var.bannerid+'" href="https://ad.ettoday.net/adclick.php?bid='+ adJS05Var.bid +'&bannerid='+ adJS05Var.bannerid +'" rel="nofollow" style="display:block; width:100%; height:100%; position:absolute; left:0; top:0; z-index:1000; background:rgba(0,0,0,0.0);" target="_blank"></a>'+adJS05HtmlCode+'</div>';
+			document.write(adJS05Div);
+
+		}else{ //不加點擊層
+
+			var adJS05Div ='<div class="adJS05" id="adJS05-'+ adJS05Var.bannerid +'" style="width:'+ adJS05Var.width1 +';">'+adJS05HtmlCode+'</div>';
+			document.write(adJS05Div);
+		}
+
+	})();
+
+}
+
+FNadJS05Init(); //初始化

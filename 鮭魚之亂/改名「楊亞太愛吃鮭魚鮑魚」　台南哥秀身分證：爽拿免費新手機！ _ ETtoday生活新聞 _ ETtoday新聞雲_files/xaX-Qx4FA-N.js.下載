@@ -1,0 +1,4 @@
+if (self.CavalryLogger) { CavalryLogger.start_js(["Xhdmz"]); }
+
+__d("isExpressWifiDotComURI",[],(function(a,b,c,d,e,f){e.exports=a;var g=new RegExp("(^|\\.)expresswifi\\.com$","i"),h=["https"];function a(a){if(a.isEmpty()&&a.toString()!=="#")return!1;return!a.getDomain()&&!a.getProtocol()?!1:h.indexOf(a.getProtocol())!==-1&&g.test(a.getDomain())}}),null);
+__d("QuickPerformanceLoggerTypes",["$InternalEnum"],(function(a,b,c,d,e,f){"use strict";a=b("$InternalEnum")({EVENT_BASED_SAMPLING:1,SESSION_BASED_SAMPLING:2,USER_BASED_SAMPLING:3});f.SamplingMethod=a}),null);

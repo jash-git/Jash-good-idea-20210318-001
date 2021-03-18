@@ -1,0 +1,83 @@
+//PC_全網_巨幅(下)@版權宣告下方
+var pbjs = pbjs || {};
+pbjs.que = pbjs.que || [],
+(function (config) {
+    var pbjs = window.pbjs,
+        code = config.code,
+        adUnitSizes = config.adUnitSizes,
+        adUnits = [{/*3.x update start*/
+            code: code,
+            mediaTypes: {
+                banner: {
+                    sizes: adUnitSizes
+                }
+            },
+            bids: config.bids
+        }],/*3.x update end*/
+        bidsBackHandler = function () {
+            bidsBackHandler = function () {};
+            var iframe = document.getElementById(code + '_frame'),
+                iframeDoc = iframe.contentWindow.document;
+                params = pbjs.getAdserverTargetingForAdUnitCode(code);
+            iframeDoc.open('text/html', 'replace');
+            if (params && params.hb_adid && params.hb_pb && params.hb_pb > config.rp) {
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>');//margin, padding 歸0
+                pbjs.renderAd(iframeDoc, params.hb_adid);
+            } else {
+                iframe.width = adUnitSizes[0][0];
+                iframe.height = adUnitSizes[0][1];
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>' + config.snippet);//margin, padding 歸0
+                iframeDoc.close();
+            }
+        };
+
+    pbjs.que.push(function() {
+        pbjs.setConfig({
+			appier: {'farm': 'tw'},/*Appier start*/
+			userSync: {
+				userIds: [{
+					name: "pubCommonId",
+					storage: {
+						type: "cookie",
+						name: "_pubcid",
+						expires: 365
+					}
+				}]
+			},/*Appier end*/
+            bidderTimeout: config.bidderTimeout,
+            priceGranularity: config.priceGranularity
+        });
+        pbjs.requestBids({
+            bidsBackHandler: bidsBackHandler,
+            adUnits: adUnits
+        });
+    });
+})({
+    bidderTimeout: 3000,/*bidderTimeout*/
+    priceGranularity: {
+        buckets: [{
+            min: 0.00,
+            max: 999.00,
+            increment: 0.01
+        }]
+    },
+    code: 'ettoday-prebid-pc-sidebar-1',/*slotid*/
+    //rp: 0.2,
+    //rp: 0.06, /*cpm*/
+    rp: 0.062, /*cpm*/
+    adUnitSizes: [ /*ad sizes*/
+      [300, 250]
+    ],
+    bids: [ /*bidders*/
+		{bidder:'aol', params:{dcn:'8a969c7d017676f2e531f58bf479009a', pos:'pc_mrec_under_copyright', ext: {}}},
+		{bidder:'appier',params:{hzid:'WUIeW9Op'}},
+		{bidder: 'appnexus',params: {placementId: '13536695'}},
+		//{bidder: 'bridgewell',params: {ChannelID: 'CgUxNjAyOBIBMRoEMjA0MCIHZXR0b2RheSoLCKwCEPoBGgE5IAE'}},
+		{bidder:'bridgewell',params:{cid:16028}},
+		{bidder:'criteo',params:{zoneId:'1292433'}},
+		//{bidder:'rtbhouse',params:{region:'prebid-asia',publisherId:'WsOc5I3j7RUchAHLGtto'}},
+		{bidder:'rubicon',params:{accountId:'19338',siteId:'220714',zoneId:'1084532'}}
+    ],
+	snippet: "\u003cscript\u003egoogle_ad_client = \"ca-pub-5538854675439600\";google_ad_slot = \"5268008262\";google_ad_width = 300;\r\ngoogle_ad_height = 250;\u003c/script\u003e\u003cscript type=\"text/javascript\" src=\"//pagead2.googlesyndication.com/pagead/show_ads.js\"\u003e\u003c/script\u003e"
+	//snippet: "\u003cscript async src=\u0027https://securepubads.g.doubleclick.net/tag/js/gpt.js\u0027\u003e\u003c/script\u003e\r\n\u003cdiv id=\u0027gpt-passback\u0027\u003e\r\n  \u003cscript\u003e\r\n     window.googletag = window.googletag || {cmd: []};\r\n       googletag.cmd.push(function() {\r\n         googletag\r\n           .defineSlot(\u0027/12656948/allsite_300x250_2\u0027, [300, 250], \u0027gpt-passback\u0027)\r\n           .addService(googletag.pubads());\r\n         googletag.enableServices();\r\n         googletag.display(\u0027gpt-passback\u0027);\r\n     });\r\n  \u003c/script\u003e\r\n\u003c/div\u003e"
+});

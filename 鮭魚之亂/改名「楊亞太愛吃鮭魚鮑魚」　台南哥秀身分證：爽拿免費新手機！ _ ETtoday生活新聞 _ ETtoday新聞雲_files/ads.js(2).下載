@@ -1,0 +1,26 @@
+
+				var isDfad = true;
+				var isLazyLoadActive = false;
+				var winBider = null;
+				if(typeof(crtCheck) == "undefined"){
+					var crtCheck = false;
+				}
+				var chtApiUrlList =["https:\/\/api.cf.dsp.hinet.net\/cktagv2.php?UID=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&SID=30689&Tags=2006,2005,2004,2003","https:\/\/api.cf.dsp.hinet.net\/cktagv2.php?UID=363659-uwJUNin9ORo7FxqYdNC7cU2L54YisMJm&SID=30984&Tags=2006,2005,2004,2003"];
+				var fljson = {"cpm":0,"bider":"clickforce","tag":"(function(){var s = \"<body><iframe width=\\\"300\\\" height=\\\"600\\\" frameborder=\\\"0\\\" vspace=\\\"0\\\" marginheight=\\\"0\\\" marginwidth=\\\"0\\\" hspace=\\\"0\\\" scrolling=\\\"no\\\" allowtransparency=\\\"true\\\" src=\\\"https:\/\/www.ettoday.net\/events\/passback\/cforce\/cf-passback.php?s=11129\\\"><\/iframe><\/body>\";var k = document.createElement(\"iframe\");k.src = \"about:blank\";k.setAttribute(\"class\", \"cfadif cfadif%%ZONE_ID%%\");k.setAttribute(\"width\", 300);k.setAttribute(\"height\", 600);k.setAttribute(\"scrolling\", \"no\");k.setAttribute(\"marginheight\", \"0\");k.setAttribute(\"marginwidth\", \"0\");k.setAttribute(\"allowtransparency\", \"true\");k.setAttribute(\"vspace\", 0);k.setAttribute(\"hspace\", 0);k.setAttribute(\"frameborder\", 0);document.body.appendChild(k);k.contentDocument.write(s);k.contentDocument.close();})();self.frameElement.width=300;self.frameElement.height=600;"};
+				var flWithTp = false;
+				var zoneLazyLoad = 0;
+				
+						crtCheck = true;
+					    var winCpm = 0;
+					    var thirdPartyCheckCpm = 0.56;
+					   	var thirdPartyConfig = {"bridgewell":{"price_compare":"0"},"criteo":{"price_compare":"1"},"GroupM":{"price_compare":"0"},"onead":{"price_compare":"0"},"rtbHouse":{"price_compare":"0"}};
+					   	thirdPartyConfig["appier_main"] = {"price_compare":"0"};
+					   	thirdPartyConfig["onead"] = {"price_compare":"0"};
+					    var sw = 300;
+						var sh = 600;
+						var sit = "&p=925f9bc8959f992b12871f2ab72bfab8-11129&t=1616044530";
+
+						var sc = document.createElement("script");
+						sc.src = "//cdn.holmesmind.com/js/drawV2.js";
+						document.body.appendChild(sc);
+				

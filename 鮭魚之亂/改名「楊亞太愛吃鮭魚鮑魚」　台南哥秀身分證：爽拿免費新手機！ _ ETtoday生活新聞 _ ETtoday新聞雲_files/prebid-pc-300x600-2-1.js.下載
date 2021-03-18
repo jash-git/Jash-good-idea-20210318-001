@@ -1,0 +1,81 @@
+//PC_全網_巨幅(下)@版權宣告下方 @ https://www.ettoday.net/events/passback/scupio/ad_300x600_2_FL-HB.htm
+var pbjs = pbjs || {};
+pbjs.que = pbjs.que || [],
+(function (config) {
+    var pbjs = window.pbjs,
+        code = config.code,
+        adUnitSizes = config.adUnitSizes,
+        adUnits = [{/*3.x update start*/
+            code: code,
+            mediaTypes: {
+                banner: {
+                    sizes: adUnitSizes
+                }
+            },
+            bids: config.bids
+        }],/*3.x update end*/
+        bidsBackHandler = function () {
+            bidsBackHandler = function () {};
+            var iframe = document.getElementById(code + '_frame'),
+                iframeDoc = iframe.contentWindow.document;
+                params = pbjs.getAdserverTargetingForAdUnitCode(code);
+            iframeDoc.open('text/html', 'replace');
+            if (params && params.hb_adid && params.hb_pb && params.hb_pb > config.rp) {
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>');//margin, padding 歸0
+                pbjs.renderAd(iframeDoc, params.hb_adid);
+            } else {
+                iframe.width = adUnitSizes[0][0];
+                iframe.height = adUnitSizes[0][1];
+                iframeDoc.write('<style>body{margin:0;padding:0;}</style>' + config.snippet);//margin, padding 歸0
+                iframeDoc.close();
+            }
+        };
+
+    pbjs.que.push(function() {
+        pbjs.setConfig({
+			appier: {'farm': 'tw'},/*Appier start*/
+			userSync: {
+				userIds: [{
+					name: "pubCommonId",
+					storage: {
+						type: "cookie",
+						name: "_pubcid",
+						expires: 365
+					}
+				}]
+			},/*Appier end*/
+            bidderTimeout: config.bidderTimeout,
+            priceGranularity: config.priceGranularity
+        });
+        pbjs.requestBids({
+            bidsBackHandler: bidsBackHandler,
+            adUnits: adUnits
+        });
+    });
+})({
+    bidderTimeout: 3000,/*bidderTimeout*/
+    priceGranularity: {
+        buckets: [{
+            min: 0.00,
+            max: 999.00,
+            increment: 0.01
+        }]
+    },
+    code: 'ettoday-prebid-pc-300x600',/*slotid*/
+    //rp: 0.48, /*cpm*/
+    rp: 1.0, /*cpm*/
+    adUnitSizes: [ /*ad sizes*/
+      [300, 600]
+    ],
+    bids: [ /*bidders*/
+      {bidder:'aol', params:{dcn:'8a969c7d017676f2e531f58bf479009a', pos:'pc_large_rectangle_2', ext: {}}},
+      {bidder:'appier',params:{hzid:'WUIimzOp'}},
+      {bidder: 'appnexus', params: {placementId: '13566136'}},
+      //{bidder: 'bridgewell', params: { ChannelID: 'CgUxNjAzOBIBMRoEMjA0MCIHZXR0b2RheSoLCKwCENgEGgE2IAE'}},
+      {bidder:'bridgewell',params:{cid:16038}},
+      //{bidder:'rtbhouse',params:{region:'prebid-asia',publisherId:'WsOc5I3j7RUchAHLGtto'}},
+      {bidder:'criteo',params:{zoneId:'806581'}},
+      {bidder:'rubicon',params:{accountId:'19338',siteId:'220714',zoneId:'1084530'}}
+    ],
+    snippet: "\u003cscript type=\"text/javascript\"\u003e\r\ngoogle_ad_client = \"ca-pub-5538854675439600\";\r\ngoogle_ad_slot = \"8848748344\";\r\ngoogle_ad_width = 300;\r\ngoogle_ad_height = 600;\r\n\u003c/script\u003e\r\n\u003cscript type=\"text/javascript\" src=\"//pagead2.googlesyndication.com/pagead/show_ads.js\"\u003e\u003c/script\u003e"
+});

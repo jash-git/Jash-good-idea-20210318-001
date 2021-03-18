@@ -1,0 +1,20 @@
+$('#etnews_live_player .video_list a.piece').click(function(){
+    var width = 645;
+    var height = 363;
+    var auto = 'true';
+    var mute = 'true';
+    var id = $(this).data('id');
+
+    console.log("click:"+id);
+
+    $.ajax({
+        method: "GET",
+        url: "https://www.ettoday.net/source/video/feed.php",
+        data: {id:id,width:width,height:height,auto:auto,mute:mute}
+    })
+    .done(function(content) {
+       var obj = JSON.parse(content);       
+       $('#video').html('<div class="et_iframevideo">'+obj.player+'</div>');
+    });
+});
+
