@@ -1,0 +1,489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<!-- saved from url=(0050)http://subversion.apache.org/packages.html#windows -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Apache Subversion Binary Packages</title>
+
+<style type="text/css">
+  @import url("/style/site.css");
+  .package {
+    padding-left: 50px;
+    min-height: 50px;
+    background-image: none;
+    background-repeat: no-repeat;
+  }
+</style>
+</head>
+
+<body>
+<div id="site-banner">
+<div style="float: right; width: 379px; height: 80px; font-style: italic; 
+            text-align: center;">
+  <a href="https://www.apache.org/"><img src="./02_files/apache-logo.png" alt="Apache Software Foundation"></a>
+</div>
+<a href="http://subversion.apache.org/">
+  <img src="./02_files/svn-square.jpg" alt="[S]" style="width: 80px; height: 80px;">
+  <img src="./02_files/svn-name-banner.jpg" alt="Subversion" style="width: 320px; height: 80px;"></a>
+</div> <!-- #site-banner -->
+
+<div id="site-nav">
+<div id="site-nav-menu">
+<ul>
+  <li>About Subversion
+    <ul>
+      <li><a href="http://subversion.apache.org/news.html">News</a></li>
+      <li><a href="http://subversion.apache.org/features.html">Features</a></li>
+      <li><a href="http://subversion.apache.org/docs/">Documentation</a></li>
+      <li><a href="http://subversion.apache.org/faq.html">FAQ</a></li>
+      <li><a href="http://subversion.apache.org/roadmap.html">Roadmap</a></li>
+      <li><a href="http://subversion.apache.org/security/">Security</a></li>
+      <li><a href="http://subversion.apache.org/quick-start">Quick Start</a></li>
+    </ul>
+  </li>
+  <li>Getting Subversion
+      <ul>
+      <!-- A parameter in the form '?update=YYYYMMDDhhmm' may
+           be appended to 'download.cgi' to only offer mirrors that have
+           synced after the specified date. We update it after a security
+           release when the email announcement is less than 24 hours after
+           the upload to /dist/release, in order to prevent offering mirrors
+           that don't carry the just-released artifacts. -->
+      <li><a href="http://subversion.apache.org/packages.html">Binary Packages</a></li>
+      <li><a href="http://subversion.apache.org/download.cgi">Source Download</a></li>
+      <li><a href="http://subversion.apache.org/docs/release-notes/">Release Notes</a></li>
+    </ul>
+  </li>
+  <li>Community
+    <ul>
+      <li><a href="http://subversion.apache.org/mailing-lists.html">Mailing Lists</a></li>
+      <li><a href="http://subversion.apache.org/reporting-issues.html">Reporting Issues</a></li>
+      <li><a href="https://cwiki.apache.org/confluence/display/SVN/">Wiki</a></li>
+      <li><a href="http://subversion.apache.org/contributing.html">Getting Involved</a></li>
+      <li><a href="http://subversion.apache.org/source-code.html">Source Code</a></li>
+    </ul>
+  </li>
+  <li>About the <acronym title="Apache Software Foundation">ASF</acronym>
+    <ul>
+      <li><a class="linkaway" href="https://www.apache.org/licenses/">Licenses</a></li>
+      <li><a class="linkaway" href="https://www.apache.org/foundation/sponsorship.html">Donate</a></li>
+      <li><a class="linkaway" href="https://www.apache.org/foundation/thanks.html">Thanks</a></li>
+    </ul>
+  </li>
+</ul>
+</div> <!-- #site-nav-menu -->
+
+<div id="site-search">
+  <form action="https://www.google.com/search" method="get" style="margin-top: 10px; margin-bottom: 10px; display: inline;">
+  <div style="display: inline;">
+    <input value="subversion.apache.org" name="sitesearch" type="hidden">
+    <input name="q" id="query" type="text" placeholder="Search..." style="width: 10em">
+    <input name="Search" value="Go" type="submit">
+  </div>
+  </form>
+</div> <!-- #site-search -->
+
+<div id="site-apachecon-block">
+  <p><a href="https://www.apache.org/events/current-event.html"><img src="./02_files/current-event-125x125.png" alt="ApacheCon"></a></p>
+</div> <!-- #site-apachecon-block -->
+
+<div id="site-svnbook-block">
+<p>Read the official Subversion
+   documentation <a href="http://svnbook.org/" class="linkaway">online</a>!</p>
+<p><a href="http://svnbook.org/"><img src="./02_files/svnbook-cover.jpg" alt="Version Control With Subversion"></a></p>
+</div> <!-- #site-svnbook-block -->
+
+<div id="copyright">
+<p>Copyright © 2018 <a href="https://www.apache.org/">The Apache
+   Software Foundation</a>, Licensed under
+   the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache
+   License, Version 2.0</a>.  Apache, Apache Subversion, and
+   the Apache feather logo are trademarks of The Apache Software
+   Foundation.  Subversion and the Apache Subversion logo are
+   registered trademarks of The Apache Software Foundation.</p>
+</div> <!-- #copyright -->
+
+</div> <!-- #site-nav -->
+
+<div id="site-content">
+<div id="site-notice">
+
+<!-- PUT SITE-WIDE NOTICES HERE AS NECESSARY -->
+
+</div> <!-- #site-notice -->
+
+
+<h1>Apache Subversion Binary Packages</h1>
+
+<div class="bigpoint">
+<p>Find packages for your operating system:</p>
+<p><a href="http://subversion.apache.org/packages.html#centos">Centos&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#debian">Debian&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#fedora">Fedora&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#freebsd">FreeBSD</a> |
+   <a href="http://subversion.apache.org/packages.html#hpux">HP-UX</a> |
+   <a href="http://subversion.apache.org/packages.html#netbsd">NetBSD</a> |
+   <a href="http://subversion.apache.org/packages.html#openbsd">OpenBSD</a> |
+   <a href="http://subversion.apache.org/packages.html#openSUSE">openSUSE</a> |
+   <a href="http://subversion.apache.org/packages.html#osx">Mac&nbsp;OS&nbsp;X</a> |
+   <a href="http://subversion.apache.org/packages.html#redhat">Red&nbsp;Hat&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#solaris">Solaris</a> |
+   <a href="http://subversion.apache.org/packages.html#suse">SUSE&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#ubuntu">Ubuntu&nbsp;Linux</a> |
+   <a href="http://subversion.apache.org/packages.html#windows">Windows</a></p>
+</div> <!-- .bigpoint -->
+
+<p>The Apache Subversion project <strong>does <em>not</em> officially
+   endorse or maintain</strong> any binary packages of the Subversion
+   software.  However, volunteers have created binary packages for
+   different distributions and platforms, and as a convenience, we
+   maintain a list of links to them here.  If there are any problems
+   with or questions about the different binary packages please send
+   email to the <a href="mailto:users@subversion.apache.org">Subversion users mailing list</a>.</p>
+
+<p>Note that binary packages usually come out about a week after the
+   corresponding <a href="http://subversion.apache.org/download.cgi">source release</a>.  Please
+   don't post to the mailing lists asking when a binary package for a
+   given platform will be ready.  The packagers already know when new
+   source releases come out, and work as fast as they can to make
+   binaries available.</p>
+
+<p>Binaries are typically built from the latest stable release.</p>
+
+<p>Note also that this list does not include distributions of larger
+   collections of software of which Subversion is but one piece.
+   Several vendors offer such things, but we concern ourselves
+   primarily with Subversion itself.  As such, the listing here is
+   limited to those packages which may be reasonably considered binary
+   distributions of Apache Subversion alone.  If you are looking for
+   more widely scoped, Subversion-related value-add offerings, we
+   trust that <code>${YOUR_FAVORITE_SEARCH_ENGINE}</code> can
+   facilitate that for you.</p>
+
+
+<div class="h2" id="centos">
+<h2>Centos Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#centos" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/centos.png&#39;);">
+
+<ul>
+<li><p><a href="https://centos.org/">CentOS project</a> (client and server)</p>
+    <pre>$ yum install subversion
+$ yum install mod_dav_svn</pre>
+</li>
+<li><p><a href="https://www.collab.net/downloads/subversion/linux.html">
+        CollabNet</a> (supported and certified by
+       <a href="https://www.collab.net/subversion">CollabNet</a>; <em>requires registration</em>)</p>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#centos">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #centos -->
+
+
+<div class="h2" id="debian">
+<h2>Debian Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#debian" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/debian.png&#39;);">
+
+<ul>
+<li><p><a href="https://packages.debian.org/search?keywords=subversion&amp;exact=1">Debian Project</a> (maintained by
+       <a href="mailto:subversion@packages.debian.org">Debian Project</a>; client and server;
+       svnserve is part of the <em>subversion</em> package,
+       mod_dav_svn is in the separate <em>libapache2-mod-svn</em> package (formerly <em>libapache2-svn</em>))</p>
+    <pre>$ apt-get install subversion
+$ apt-get install libapache2-mod-svn</pre>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#debian">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #debian -->
+
+
+<div class="h2" id="fedora">
+<h2>Fedora Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#fedora" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/fedora.png&#39;);">
+
+<ul>
+<li><p><a href="https://koji.fedoraproject.org/koji/packageinfo?packageID=752">Fedora Project</a> (maintained by
+       <a href="https://koji.fedoraproject.org/koji/userinfo?userID=41">Joe Orton</a>)</p>
+    <pre>$ yum install subversion</pre>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #fedora -->
+
+
+<div class="h2" id="freebsd">
+<h2>FreeBSD
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#freebsd" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/freebsd.png&#39;);">
+
+<ul>
+<li><p><a href="https://www.freebsd.org/cgi/cvsweb.cgi/ports/devel/subversion/">FreeBSD Project</a></p>
+    <pre>$ cd /usr/ports/devel/subversion
+$ make install</pre>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #freebsd -->
+
+
+<div class="h2" id="hpux">
+<h2>HP-UX
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#hpux" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/hp.png&#39;);">
+
+<ul>
+<li><p><a href="http://hpux.connect.org.uk/hppd/cgi-bin/search?term=subversion.">HP Porting Centre</a> (maintained by
+       <a href="https://www.connectinternetsolutions.com/">Connect Internet Solutions Ltd.</a>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #hpux -->
+
+
+<div class="h2" id="netbsd">
+<h2>NetBSD
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#netbsd" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/netbsd.png&#39;);">
+
+<ul>
+<li><p><a href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/devel/subversion/">pkgsrc</a> (maintained by
+       <a href="mailto:epg@NetBSD.org">Eric Gillespie</a>)</p>
+    <pre>$ cd /usr/pkgsrc/devel/subversion
+$ make install clean</pre>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #netbsd -->
+
+
+<div class="h2" id="openbsd">
+<h2>OpenBSD
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#openbsd" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/openbsd.png&#39;);">
+
+<ul>
+<li><p><a href="https://cvsweb.openbsd.org/cgi-bin/cvsweb/ports/devel/subversion/">OpenBSD Project</a> (client and server;
+       svnserve is part of the <em>subversion</em> package,
+       mod_dav_svn is in the separate <em>ap2-subversion</em> package)</p>
+    <pre>$ pkg_add subversion
+$ pkg_add ap2-subversion</pre>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #openbsd -->
+
+
+<div class="h2" id="openSUSE">
+<h2>openSUSE
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#openSUSE" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/suse.png&#39;);">
+
+<ul>
+<li><p>Part of the the standard distribution. svnserve is part of the 
+    <em>subversion</em> package, mod_dav_svn is in the separate
+    <em>subversion-server</em> package.</p>
+    <pre>$ zypper install subversion
+$ zypper install subversion-server</pre>
+    </li>
+<li><p>Community packages are available from the
+    <a href="https://software.opensuse.org/download.html?project=devel:tools:scm:svn&amp;package=subversion">
+    openSUSE project</a>, also for the
+    <a href="https://software.opensuse.org/download.html?project=devel:tools:scm:svn:1.8&amp;package=subversion">
+    1.8 series of releases</a>.</p>
+   </li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #openSUSE -->
+
+
+<div class="h2" id="osx">
+<h2>Mac OS X
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#osx" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/mac.png&#39;);">
+
+<ul>
+<li><p>An old version of Subversion is shipped with MacOS X.
+       See the <a href="https://www.apple.com/opensource/">open source section of Apple's web site</a> for more
+       information.</p></li>
+<li><p><a href="http://pdb.finkproject.org/pdb/package.php/svn">Fink</a> (requires <a href="http://www.finkproject.org/">Fink</a>; maintained by
+       <a href="mailto:chris01@users.sourceforge.net">Christian Schaffner</a>)</p>
+</li>
+<li><p><a href="https://brew.sh/">Homebrew</a></p>
+    <pre>$ brew options subversion
+$ brew install (OPTIONS) subversion</pre>
+</li>
+<li><p><a href="https://www.macports.org/ports.php?by=name&amp;substr=subversion">MacPorts</a> (requires <a href="https://www.macports.org/">MacPorts</a>)</p>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#osx">
+        WANdisco</a> (client and server; supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #osx -->
+
+
+<div class="h2" id="redhat">
+<h2>Red Hat Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#redhat" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/redhat.png&#39;);">
+
+<ul>
+<li><p><a href="https://www.redhat.com/">Red Hat</a> (client and server)</p>
+    <pre>$ yum install subversion
+$ yum install mod_dav_svn</pre>
+</li>
+<li><p><a href="https://www.collab.net/downloads/subversion/linux.html">
+        CollabNet</a> (supported and certified by
+       <a href="https://www.collab.net/subversion">CollabNet</a>; <em>requires registration</em>)</p>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#redhat">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #redhat -->
+
+
+<div class="h2" id="solaris">
+<h2>Solaris
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#solaris" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/solaris.png&#39;);">
+
+<ul>
+<li><p><a href="https://www.wandisco.com/subversion/download#solaris">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #solaris -->
+
+
+<div class="h2" id="suse">
+<h2>SUSE Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#suse" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/suse.png&#39;);">
+
+<ul>
+<li><p>On <a href="https://www.suse.com/products/server">SUSE Linux Enterprise</a>: 
+    Enable the
+    <a href="https://www.suse.com/documentation/sles-12/book_sle_deployment/data/sec_add-ons_sdk.html">SDK</a>.
+    svnserve is part of the <em>subversion</em> package,
+    mod_dav_svn is in the separate <em>subversion-server</em> package.</p>
+    <pre>$ SUSEConnect -p sle-sdk/12.3/x86_64
+$ zypper install subversion
+$ zypper install subversion-server</pre>
+    </li>
+<li><p>Community packages are available from the
+    <a href="https://software.opensuse.org/download.html?project=devel:tools:scm:svn&amp;package=subversion">
+    openSUSE project</a>, also for the
+    <a href="https://software.opensuse.org/download.html?project=devel:tools:scm:svn:1.8&amp;package=subversion">
+    1.8 series of releases</a>.</p>
+   </li>
+<li><p><a href="https://www.wandisco.com/subversion/download#suse">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #suse -->
+
+
+<div class="h2" id="ubuntu">
+<h2>Ubuntu Linux
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#ubuntu" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/ubuntu.png&#39;);">
+
+<ul>
+<li><p><a href="https://packages.ubuntu.com/search?keywords=subversion&amp;exact=1">Ubuntu Packages</a> (maintained by
+       <a href="https://lists.ubuntu.com/mailman/listinfo/ubuntu-devel-discuss">Ubuntu Project</a>; client and server;
+       svnserve is part of the <em>subversion</em> package,
+       mod_dav_svn is in the separate <em>libapache2-svn</em> package)</p>
+    <pre>$ apt-get install subversion
+$ apt-get install libapache2-svn</pre>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#ubuntu">
+        WANdisco</a> (supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #ubuntu -->
+
+
+<div class="h2" id="windows">
+<h2>Windows
+  <a class="sectionlink" href="http://subversion.apache.org/packages.html#windows" title="Link to this section">¶</a>
+</h2>
+<div class="package" style="background-image: url(&#39;/images/windows.png&#39;);">
+
+<ul>
+<li><p><a href="https://www.collab.net/downloads/subversion/">CollabNet</a> (supported and certified by
+       <a href="https://www.collab.net/subversion">CollabNet</a>; <em>requires registration</em>)</p>
+</li>
+<li><p><a href="https://www.sliksvn.com/en/download">SlikSVN</a> (32- and 64-bit client MSI; maintained by
+       <a href="mailto:rhuijben@open.collab.net">Bert Huijben</a>, 
+       <a href="https://sharpsvn.open.collab.net/">SharpSvn project</a>)</p>
+</li>
+<li><p><a href="https://tortoisesvn.net/downloads/">TortoiseSVN</a> (optionally installs 32- and 64-bit command line tools and
+       svnserve; supported and maintained by the
+       <a href="https://tortoisesvn.net/">TortoiseSVN project</a>)</p>
+</li>
+<li><p><a href="https://www.visualsvn.com/downloads/">VisualSVN</a> (32- and 64-bit client and server; supported and maintained by
+       <a href="https://www.visualsvn.com/">VisualSVN</a>)</p>
+</li>
+<li><p><a href="https://www.wandisco.com/subversion/download#windows">WANdisco</a> (32- and 64-bit client and server; supported and certified by
+       <a href="https://www.wandisco.com/subversion/">WANdisco</a>; <em>requires registration</em>)</p>
+</li>
+<!--
+<li><p><a href="https://sourceforge.net/projects/win32svn/"
+        >Win32Svn</a> (32-bit client, server and bindings, MSI and ZIPs;
+        maintained by <a href="https://alagazam.net/">David Darj</a>)</p>
+</li>
+-->
+</ul>
+
+</div> <!-- .package -->
+</div> <!-- #windows -->
+</div> <!-- #site-content -->
+
+
+
+
+</body></html>
