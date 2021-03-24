@@ -1,0 +1,1 @@
+_gfp_s_({"_cookies_":[{"_value_":"ID=bc69368fa191ff5d-222f5851cfc60046:T=1616553535:RT=1616553535:S=ALNI_MYWKQ8FlpDnpyVcQvzst8dqIgdQyw","_expires_":1650249535,"_path_":"/","_domain_":"kjnotes.com"}]});
