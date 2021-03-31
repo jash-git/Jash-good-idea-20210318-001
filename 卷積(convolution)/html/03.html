@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)https://iter01.com/480243.html -->
+<html lang="zh-Hant" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# article: http://ogp.me/ns/article#"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！ | IT人</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="編輯：深度學習自然語言處理1、對卷積的困惑卷積這個概念，很早以前就學過，但是一直沒有搞懂。教科書上通常會給出定義，給出很多性質，也會用例項和圖形進行解釋，但究竟為什麼要這麼設計，這麼計算，背後的意義是什麼，往往語焉不詳。作為一個學物理出身的人，一個公式倘若倘若給不出結合實際的直觀的通俗的解釋（也就是">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://iter01.com/480243.html">
+<meta property="og:title" content="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://iter01.com/480243.html">
+<meta property="og:description" content="編輯：深度學習自然語言處理1、對卷積的困惑卷積這個概念，很早以前就學過，但是一直沒有搞懂。教科書上通常會給出定義，給出很多性質，也會用例項和圖形進行解釋，但究竟為什麼要這麼設計，這麼計算，背後的意義是什麼，往往語焉不詳。作為一個學物理出身的人，一個公式倘若倘若給不出結合實際的直觀的通俗的解釋（也就是">
+<meta property="og:site_name" content="IT人">
+<meta property="og:ttl" content="2592000">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:url" content="https://iter01.com/480243.html">
+<meta name="twitter:title" content="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！">
+<meta name="twitter:description" content="編輯：深度學習自然語言處理1、對卷積的困惑卷積這個概念，很早以前就學過，但是一直沒有搞懂。教科書上通常會給出定義，給出很多性質，也會用例項和圖形進行解釋，但究竟為什麼要這麼設計，這麼計算，背後的意義是什麼，往往語焉不詳。作為一個學物理出身的人，一個公式倘若倘若給不出結合實際的直觀">
+<script src="./03_files/f.txt"></script><script type="text/javascript" async="" src="./03_files/analytics.js.下載"></script><script src="./03_files/osd.js.下載"></script><script src="./03_files/f(1).txt"></script><script src="./03_files/f(2).txt"></script><script src="./03_files/f(3).txt" id="google_shimpl"></script><script data-ad-client="ca-pub-7340274291447970" async="" src="./03_files/f(4).txt" data-checked-head="true"></script>
+<link rel="stylesheet" href="./03_files/0f37a415eec5.css" type="text/css">
+<style>
+        
+    
+    
+    .block {
+    margin-top: 60px;
+    }
+    .block-title {
+    border-left: 5px solid darkred;
+    padding-left:10px;
+    font-size:21pt;
+    }
+
+    .item {
+    float:left; display:inline-block; width:320px; height:460px; margin:0 10px 30px 10px; border:1px solid #666; padding:10px;
+    }
+
+    .item-title {
+    margin:5px 0 5px 0; padding:0;
+    }
+    .item-title a {
+    color:#000;
+    }
+
+    .item-topic {
+    font-size:12pt;
+    }
+
+    .item-topic a {
+    color:#878A8C;
+    border: 1px solid #aaa;
+    padding: 5px 5px 5px 5px;
+    margin-right: 10px;
+    }
+
+
+
+
+
+    .item-date {
+    font-size:10pt; color:#878A8C;
+    }
+    .item-date a {
+    color:#878A8C;
+    }
+
+    .item-desc {
+    margin-top:5px;
+    font-size:12pt; line-height:1.3em; color:#666; word-break:break-all;
+    }
+
+    
+.ad-rwd-h { width: 300px; height: 250px; }
+@media(min-width: 500px) { .ad-rwd-h { width: 300px; height: 250px; } }
+@media(min-width: 800px) { .ad-rwd-h { width: 728px; height: 90px; } }
+
+.ad-rwd-fh-wrapper { width:320px; margin:0 auto; }
+@media(min-width:500px) { .ad-rwd-fh-wrapper { width:468px; margin:0; } }
+@media(min-width:800px) { .ad-rwd-fh-wrapper { width:728px; margin:0; } }
+    
+
+
+    ul.article-list {
+    margin:0;
+    padding:0;
+    }
+
+    ul.article-list li {
+    width: 98%;
+    margin:5px;
+    border-top: 1px solid #aaa;
+    padding: 15px 10px 10px 5px;
+    display: block;
+    }
+
+    ul.article-list li .article-title {
+    font-size: 14pt;
+    color: #222222;
+    display:block;
+    }
+    ul.article-list li .article-meta {
+    margin-top:5px;
+    }
+
+
+
+    ul.sidebar-article-list {
+    margin:0;
+    padding:0;
+    }
+    ul.sidebar-article-list li {
+    width: 98%;
+
+
+    padding: 10px 10px 5px 15px;
+    display: block;
+    }
+
+    ul.sidebar-article-list li .sidebar-article-title {
+    font-size: 12pt;
+    color: #222222;
+    display:block;
+    }
+    ul.sidebar-article-list li  {
+    margin-top:5px;
+    }
+
+
+    a {
+    word-wrap: break-word;
+    }
+
+    </style>
+<meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0="><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><link rel="preload" href="./03_files/f(5).txt" as="script"><script type="text/javascript" src="./03_files/f(5).txt"></script><link rel="preload" href="./03_files/f(6).txt" as="script"><script type="text/javascript" src="./03_files/f(6).txt"></script><link rel="stylesheet" type="text/css" href="./03_files/prettify.css"></head>
+<body aria-hidden="false">
+<nav class="navbar navbar-inverse navbar-fixed-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<span class="sr-only">Toggle navigation</span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="https://iter01.com/">IT人</a>
+</div>
+<div id="navbar" class="collapse navbar-collapse">
+<ul class="nav navbar-nav">
+</ul>
+</div>
+</div>
+</nav>
+<div class="container" id="main" style="height: auto !important;">
+<div class="row">
+<ol class="breadcrumb">
+<li><a href="https://iter01.com/">IT人</a></li>
+</ol>
+</div>
+<div class="row row-offcanvas row-offcanvas-right" style="height: auto !important;">
+<div class="col-xs-12 col-sm-8 " style="height: auto !important; min-height: 0px !important;">
+<div class="row" style="padding:0;">
+</div>
+<div class="row"></div>
+<div class="row" style="padding: 5px; height: auto !important;">
+<div style="height: auto !important;">
+<h1>【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！</h1>
+<div class="meta-info"><span class="author">視學演算法</span> 發表於
+<span class="post-time">2020-04-06</span>
+</div>
+<div>
+<div style="margin-top:10px;">
+</div>
+</div>
+<div style="width:100%; margin:30px auto;">
+<ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-7340274291447970" data-ad-slot="1184153650" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:770px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="display: block; border: none; height: 280px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 770px; background-color: transparent; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:770px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="770" height="280" frameborder="0" src="./03_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL2l0ZXIwMS5jb20vNDgwMjQzLmh0bWwifQ..&quot;}" data-google-container-id="a!2" data-google-query-id="CL7S84mI2u8CFcVfYAodSzIBqQ" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div style="word-wrap: break-word;">
+<div class="htmledit_views" id="content_views">
+<div id="js_content">
+<h1><strong><span><span>編輯：深度學習自然語言處理</span></span></strong></h1><h1><strong><span>1、對卷積的困惑</span></strong></h1><p><span>卷積這個概念，很早以前就學過，但是一直沒有搞懂。教科書上通常會給出定義，給出很多性質，也會用例項和圖形進行解釋，但究竟為什麼要這麼設計，這麼計算，背後的意義是什麼，往往語焉不詳。作為一個學物理出身的人，一個公式倘若倘若給不出結合實際的直觀的通俗的解釋（也就是背後的“物理”意義），就覺得少了點什麼，覺得不是真的懂了。</span></p><p><span>教科書上一般定義函式&nbsp;<em>f, g</em>&nbsp;的卷積&nbsp;<em>f * g(n)</em>&nbsp;如下：</span></p><p><span>連續形式：</span></p><p style="text-align: center"><img src="./03_files/4a1ee17e15c7524b1941f4e239130d531a4d7760f4d0280c9982ffaf3e255818.png" width="298" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>離散形式：</span></p><p style="text-align: center"><img src="./03_files/8da11551f7efdb90cdc41c95eda0bc7e2edaf4377de7b7bacb3d035b47f3a33c.png" width="284" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>並且也解釋了，先對g函式進行翻轉，相當於在數軸上把g函式從右邊褶到左邊去，也就是卷積的“卷”的由來。</span></p><p><span>然後再把g函式平移到n，在這個位置對兩個函式的對應點相乘，然後相加，這個過程是卷積的“積”的過程。</span></p><p><span>這個只是從計算的方式上對公式進行了解釋，從數學上講無可挑剔，但進一步追問，為什麼要先翻轉再平移，這麼設計有何用意？還是有點費解。</span></p><p><span>在知乎，已經很多的熱心網友對卷積舉了很多形象的例子進行了解釋，如卷地毯、丟骰子、打耳光、存錢等等。讀完覺得非常生動有趣，但過細想想，還是感覺有些地方還是沒解釋清楚，甚至可能還有瑕疵，或者還可以改進（這些後面我會做一些分析）。</span></p><p><span>帶著問題想了兩個晚上，終於覺得有些問題想通了，所以就寫出來跟網友分享，共同學習提高。不對的地方歡迎評論拍磚。。。</span></p><p><span>明確一下，這篇文章主要想解釋兩個問題：</span></p><p><span>1. 卷積這個名詞是怎麼解釋？“卷”是什麼意思？“積”又是什麼意思？</span></p><p><span>2. 卷積背後的意義是什麼，該如何解釋？</span></p><h1><strong><span>2、考慮的應用場景</span></strong></h1><p><span>為了更好地理解這些問題，我們先給出兩個典型的應用場景：</span></p><p><span><strong><span>1. 訊號分析</span></strong></span></p><p><span>一個輸入訊號<em>f(t)</em>，經過一個線性系統（其特徵可以用單位衝擊響應函式<em>g(t)</em>描述）以後，輸出訊號應該是什麼？實際上通過卷積運算就可以得到輸出訊號。</span></p><p><span><strong><span>2. 影像處理</span></strong></span></p><p><span>輸入一幅影像<em>f(x,y)</em>，經過特定設計的卷積核<em>g(x,y)</em>進行卷積處理以後，輸出影像將會得到模糊，邊緣強化等各種效果。</span></p><h1><strong><span>3、對卷積的理解</span></strong></h1><p><span>對卷積這個名詞的理解：所謂兩個函式的卷積，本質上就是先將一個函式翻轉，然後進行滑動疊加。</span></p><p><span>在連續情況下，疊加指的是對兩個函式的乘積求積分，在離散情況下就是加權求和，為簡單起見就統一稱為疊加。</span></p><p><span>整體看來是這麼個過程：</span></p><p><span>翻轉——&gt;滑動——&gt;疊加——&gt;滑動——&gt;疊加——&gt;滑動——&gt;疊加.....</span></p><p><span>多次滑動得到的一系列疊加值，構成了卷積函式。</span></p><p><span>卷積的“卷”，指的的函式的翻轉，從&nbsp;<em>g(t)</em>&nbsp;變成&nbsp;<em>g(-t)</em>&nbsp;的這個過程；</span><span>同時，“卷”還有滑動的意味在裡面（吸取了網友李文清的建議）。如果把卷積翻譯為“褶積”，那麼這個“褶”字就只有翻轉的含義了。</span></p><p><span>卷積的“積”，指的是積分/加權求和。</span></p><p><span>有些文章只強調滑動疊加求和，而沒有說函式的翻轉，我覺得是不全面的；有的文章對“卷”的理解其實是“積”，我覺得是張冠李戴。</span></p><p><span>對卷積的意義的理解：</span></p><p><span>1. 從“積”的過程可以看到，我們得到的疊加值，是個全域性的概念。以訊號分析為例，卷積的結果是不僅跟當前時刻輸入訊號的響應值有關，也跟過去所有時刻輸入訊號的響應都有關係，考慮了對過去的所有輸入的效果的累積。在影像處理的中，卷積處理的結果，其實就是把每個畫素周邊的，甚至是整個影像的畫素都考慮進來，對當前畫素進行某種加權處理。所以說，“積”是全域性概念，或者說是一種“混合”，把兩個函式在時間或者空間上進行混合。</span></p><p><span>2. 那為什麼要進行“卷”？直接相乘不好嗎？我的理解，進行“卷”（翻轉）的目的其實是施加一種約束，它指定了在“積”的時候以什麼為參照。在訊號分析的場景，它指定了在哪個特定時間點的前後進行“積”，在空間分析的場景，它指定了在哪個位置的周邊進行累積處理。</span></p><h1><span>4、舉例說明</span></h1><p><span>下面舉幾個例子說明為什麼要翻轉，以及疊加求和的意義。</span></p><h3><span><strong><span>例1：</span></strong><strong><span>訊號分析</span></strong></span></h3><p><span>如下圖所示，輸入訊號是&nbsp;<em>f(t)</em>&nbsp;，是隨時間變化的。系統響應函式是&nbsp;<em>g(t)</em>&nbsp;，圖中的響應函式是隨時間指數下降的，它的物理意義是說：如果在&nbsp;<em>t</em>=0 的時刻有一個輸入，那麼隨著時間的流逝，這個輸入將不斷衰減。換言之，到了&nbsp;<em>t</em>=T時刻，原來在&nbsp;<em>t</em>=0 時刻的輸入<em>f</em>(0)的值將衰減為<em>f</em>(0)<em>g</em>(T)。</span></p><img src="./03_files/4ac7f0b46664f7308df2b3022423ede396cb3da3123a55550f4820378bb3ad0c.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>考慮到訊號是連續輸入的，也就是說，每個時刻都有新的訊號進來，所以，最終輸出的是所有之前輸入訊號的累積效果。如下圖所示，在T=10時刻，輸出結果跟圖中帶標記的區域整體有關。其中，f(10)因為是剛輸入的，所以其輸出結果應該是f(10)g(0)，而時刻t=9的輸入f(9)，只經過了1個時間單位的衰減，所以產生的輸出應該是 f(9)g(1)，如此類推，即圖中虛線所描述的關係。這些對應點相乘然後累加，就是T=10時刻的輸出訊號值，這個結果也是f和g兩個函式在T=10時刻的卷積值。</span></p><img src="./03_files/50841c163670cc32ada3a71bed63d984bcd296c7b14bc6e7a18c8c55e2f1e8af.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>顯然，上面的對應關係看上去比較難看，是擰著的，所以，我們把g函式對摺一下，變成了g(-t)，這樣就好看一些了。看到了嗎？這就是為什麼卷積要“卷”，要翻轉的原因，這是從它的物理意義中給出的。</span></p><img src="./03_files/975c09f916178f588a56ac2aef66e1b8b80e9b687c2f197cae059e8549e4fa3f.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>上圖雖然沒有擰著，已經順過來了，但看上去還有點錯位，所以再進一步平移T個單位，就是下圖。它就是本文開始給出的卷積定義的一種圖形的表述：</span></p><img src="./03_files/9a0bb00de0ce47fe58240c34833efaeef217c6c9a8ad0689f86537abbca18985.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>所以，在以上計算T時刻的卷積時，要維持的約束就是：</span><span><em><span>t+ (T-t) = T</span></em><span>&nbsp;&nbsp;。這種約束的意義，大家可以自己體會。</span></span></p><h3><span><strong><span>例2：</span></strong><strong><span>丟骰子</span></strong></span></h3><p><span>在本問題&nbsp;如何通俗易懂地解釋卷積？中排名第一的馬同學在中舉了一個很好的例子（下面的一些圖摘自馬同學的文章，在此表示感謝），用丟骰子說明了卷積的應用。</span></p><p><span>要解決的問題是：有兩枚骰子，把它們都丟擲去，兩枚骰子點數加起來為4的概率是多少?</span></p><img src="./03_files/be1091ad3c55c28be1a2dbcdeb596572d45a1e1f164023c104f474e2003fc97a.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>分析一下，兩枚骰子點數加起來為4的情況有三種情況：1+3=4， 2+2=4, 3+1=4</span></p><p><span>因此，兩枚骰子點數加起來為4的概率為：</span></p><img src="./03_files/7e97bc24b1e067d8a243b8f3c8aeb60f83fb1c967b8101d6b3eeef8d2ab77fda.jpg" width="431" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><p><span>寫成卷積的方式就是：</span></p><p style="text-align: center"><img src="./03_files/bf0cddad824911be1f01d1f1bb285d4ceb61d02b3f919a4e7b1f065061aa3856.png" width="284" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>在這裡我想進一步用上面的翻轉滑動疊加的邏輯進行解釋。</span><br></p><p><span>首先，因為兩個骰子的點數和是4，為了滿足這個約束條件，我們還是把函式 g 翻轉一下，然後陰影區域上下對應的數相乘，然後累加，相當於求自變數為4的卷積值，如下圖所示：</span></p><img src="./03_files/41a42383f3623cb4bcd5815ccf48906027ea618bc4bf2aa0b32be013c19078a9.jpg" width="717" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>進一步，如此翻轉以後，可以方便地進行推廣去求兩個骰子點數和為 n 時的概率，為f 和 g的卷積 f*g(n)，如下圖所示：</span></p><img src="./03_files/30ea9df48b6acf18ef169936e24871141b0d496af7e3e2b3d26ebdd13665acfa.jpg" width="445" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>由上圖可以看到，函式 g 的滑動，帶來的是點數和的增大。這個例子中對f和g的約束條件就是點數和，它也是卷積函式的自變數。有興趣還可以算算，如果骰子的每個點數出現的概率是均等的，那麼兩個骰子的點數和n=7的時候，概率最大。</span></p><h3><span><strong><span>例3：</span></strong><strong><span>影像處理</span></strong></span></h3><p><span>還是引用知乎問題&nbsp;如何通俗易懂地解釋卷積？中馬同學的例子。影像可以表示為矩陣形式（下圖摘自馬同學的文章）：</span></p><img src="./03_files/96ef2d938d204bb1954d915cc83dad9dfbf604a56359c8007b3c62e46b328095.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><p><span>對影像的處理函式（如平滑，或者邊緣提取），也可以用一個g矩陣來表示，如：</span></p><p style="text-align: center"><img src="./03_files/65b8bbf18f3a63d9f98820eb192baa7108fe5e53da0e47e6b149e15550dd059e.png" width="270" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>注意，我們在處理平面空間的問題，已經是二維函式了，相當於：</span></p><p style="text-align: center"><img src="./03_files/ad7d984e0e45b80aeaff9950d3d4ad8fbc7e7f7a786ff232457291bb6c2bffdd.png" width="248" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>那麼函式f和g的在（u，v）處的卷積該如何計算呢？</span></p><img src="./03_files/9358b7f6eebda88f1685cb27808c980d02c5fbd0744d4ebdd04651f601530377.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><p><span>首先我們在原始影像矩陣中取出（u,v）處的矩陣：</span></p><p style="text-align: center"><img src="./03_files/aa7b497479b4afc824b3bfbd8f49416600e36ab22b57f0114848c0f262d52205.png" width="321" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>然後將影像處理矩陣翻轉（這個翻轉有點意思，不是延x軸和y軸兩個方向翻轉，而是沿右上到左下的對角線翻轉，這是為了湊後面的內積公式。），如下：</span></p><p style="text-align: center"><img src="./03_files/fa271bac8664a045d60ec9a5f3cc79c5b1546c91580f836815ff42843bdf33f6.png" width="274" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>可對比下圖：</span></p><img src="./03_files/b1c803bd5575abd51e0e5245bf749db0ca0cdbaee0e95e7a86f142652d231266.jpg" width="360" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><p><span>計算卷積時，就可以用和的內積：</span></p><p style="text-align: center"><img src="./03_files/83c30e8c94098f791d0e97b59f7dacc61cf0865d1fdedc879c3f8aa37fa08f70.png" width="522" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><br></p><p><span>請注意，以上公式有一個特點，做乘法的兩個對應變數a,b的下標之和都是（u,v），其目的是對這種加權求和進行一種約束。這也是為什麼要將矩陣g進行翻轉的原因。以上矩陣下標之所以那麼寫，並且進行了翻轉，是為了讓大家更清楚地看到跟卷積的關係。這樣做的好處是便於推廣，也便於理解其物理意義。實際在計算的時候，都是用翻轉以後的矩陣，直接求矩陣內積就可以了。<br><br>以上計算的是（u,v）處的卷積，延x軸或者y軸滑動，就可以求出影像中各個位置的卷積，其輸出結果是處理以後的影像（即經過平滑、邊緣提取等各種處理的影像）。</span></p><p><span>再深入思考一下，在算影像卷積的時候，我們是直接在原始影像矩陣中取了（u,v）處的矩陣，為什麼要取這個位置的矩陣，本質上其實是為了滿足以上的約束。因為我們要算（u，v）處的卷積，而g矩陣是3x3的矩陣，要滿足下標跟這個3x3矩陣的和是（u,v），只能是取原始影像中以（u，v）為中心的這個3x3矩陣，即圖中的陰影區域的矩陣。</span></p><p><span>推而廣之，如果如果g矩陣不是3x3，而是6x6，那我們就要在原始影像中取以（u，v）為中心的6x6矩陣進行計算。由此可見，這種卷積就是把原始影像中的相鄰畫素都考慮進來，進行混合。相鄰的區域範圍取決於g矩陣的維度，維度越大，涉及的周邊畫素越多。而矩陣的設計，則決定了這種混合輸出的影像跟原始影像比，究竟是模糊了，還是更銳利了。</span></p><p><span>比如說，如下影像處理矩陣將使得影像變得更為平滑，顯得更模糊，因為它聯合周邊畫素進行了平均處理：</span></p><p style="text-align: center"><img src="./03_files/8d00a5ae2070864a507c97373ca0d7a8c162dc6ddce3a3ccb52c67fd2d1796b1.png" width="180" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><span>而如下影像處理矩陣將使得畫素值變化明顯的地方更為明顯，強化邊緣，而變化平緩的地方沒有影響，達到提取邊緣的目的：</span></p><p style="text-align: center"><img src="./03_files/bfdfb9accb5dfc84e59652056849c1684f412954ab7fcf8fd349b04a008f88ea.png" width="209" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p style="text-align: left"><span>5、對一些解釋的不同意見</span><br></p><p><span>上面一些對卷積的形象解釋，如知乎問題&nbsp;卷積為什麼叫「卷」積？中荊哲以及問題&nbsp;如何通俗易懂地解釋卷積？中馬同學等人提出的如下比喻：</span></p><img src="./03_files/f3a449caf6f21553e360af332b9f2110845d4427ec7faffe924da61b47045178.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><img src="./03_files/267f77bc4b79ea4db6ea65f33bc26b678f3cec1e319edcf8ba7068ba9da50a30.jpg" width="720" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"><br><p><span>其實圖中“卷”的方向，是沿該方向進行積分求和的方向，並無翻轉之意。因此，這種解釋，並沒有完整描述卷積的含義，對“卷”的理解值得商榷。</span></p><p><span>6、一些參考資料</span></p><p><span>《數字訊號處理（第二版）》程乾生，北京大學出版社</span></p><p><span>《訊號與系統引論》 鄭君裡，應啟珩，楊為理，高等教育出版社</span></p><p style="text-align: center"><span><strong><span>-&nbsp;END -</span></strong></span></p><p style="text-align: justify"><span><span><span>如果看到這裡，說明你喜歡這篇文章，請</span><strong><span>轉發</span></strong><strong><span>、點贊</span></strong></span><span>。<span>掃描下方二維碼</span>或者微信搜尋「</span></span><span><strong><span>perfect_iscas</span></strong></span><span>」，新增好友後即可獲得</span><span><span><strong><span>10套程式設計師全棧課程+1000套PPT和簡歷模板</span></strong></span></span><span><strong><span>，</span></strong></span><span>向我私聊「</span><span><span><strong><span>進群</span></strong></span></span><span>」二字即可進入高質量交流群。</span></p><p style="text-align: center"><span><strong><span><strong><span>↓</span></strong>掃描二維碼進群↓</span></strong></span></p><p style="text-align: center"><img src="./03_files/09a19f06e754fc3777db6eb91598f0bca82c723178ac6b6fe79c39a887867998.png" width="430" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p><img src="./03_files/32ea354d98a412c41b8be8d16eac2ca040e400c616d6453462ad6c9aed717ac1.png" width="40" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p style="text-align: center"><img src="./03_files/dfac3c1f8ff195cfdde3502c38cc708544df14f4a83931f128a54722a196baf4.gif" width="639" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p><p style="text-align: right"><span><strong>喜</strong><strong>歡</strong><strong>文</strong><strong>章</strong><strong>，</strong><strong>點</strong><strong>個</strong></span><span><strong>在看&nbsp;</strong></span><img src="./03_files/427fb9869b3a5fbfb9c201f735f7c94256f878d7cb4eae9f83fc1cd4ebbd2e1d.jpg" width="82" alt="【CNN】很詳細的講解什麼以及為什麼是卷積（Convolution）！"></p>
+</div> </div>
+</div>
+<div style="width:100%; margin:30px auto 0;">
+<ins class="adsbygoogle" style="display: block; height: 280px;" data-ad-client="ca-pub-7340274291447970" data-ad-slot="1184153650" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:280px;margin:0;padding:0;position:relative;visibility:visible;width:770px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display: block; border: none; height: 280px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 770px; background-color: transparent; overflow: visible;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:770px;height:280px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="770" height="280" frameborder="0" src="./03_files/ads(1).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL2l0ZXIwMS5jb20vNDgwMjQzLmh0bWwifQ..&quot;}" data-google-container-id="a!3" data-google-query-id="CIb3j5SI2u8CFUwhYAodkxEB2g" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="block">
+<h3 class="block-title">相關文章</h3>
+<ul class="article-list">
+<li>
+<a class="article-title" href="https://iter01.com/549784.html" title="卷積神經網路中感受野的理解和計算">卷積神經網路中感受野的理解和計算</a>
+<div class="article-meta">
+<span class="item-date">2020-11-03</span>
+<span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/550247.html" title="卷積神經網路CNN">卷積神經網路CNN</a>
+<div class="article-meta">
+<span class="item-date">2020-11-04</span>
+<span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/550904.html" title="影像篡改被動檢測技術一覽：基於特徵提取和卷積神經網路的篡改檢測">影像篡改被動檢測技術一覽：基於特徵提取和卷積神經網路的篡改檢測</a>
+<div class="article-meta">
+<span class="item-date">2020-11-05</span>
+<span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/551047.html" title="Pytorch版Faster R-CNN 原始碼分析+方法流程詳解——訓練篇">Pytorch版Faster R-CNN 原始碼分析+方法流程詳解——訓練篇</a>
+<div class="article-meta">
+<span class="item-date">2020-11-05</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/552359.html" title="Ng深度學習筆記——卷積神經網路基礎">Ng深度學習筆記——卷積神經網路基礎</a>
+<div class="article-meta">
+<span class="item-date">2020-11-08</span>
+<span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span><span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/552407.html" title="將圖卷積應用於關係推理">將圖卷積應用於關係推理</a>
+<div class="article-meta">
+<span class="item-date">2020-11-08</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/552574.html" title="手寫數字圖片識別-卷積神經網路">手寫數字圖片識別-卷積神經網路</a>
+<div class="article-meta">
+<span class="item-date">2020-11-09</span>
+<span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/552608.html" title="實體對齊4.EMNLP2018：（GCN-Align）Cross-lingual Knowledge Graph Alignment via Graph Convolutional Networks">實體對齊4.EMNLP2018：（GCN-Align）Cross-lingual Knowledge Graph Alignment via Graph Convolutional Networks</a>
+<div class="article-meta">
+<span class="item-date">2020-11-09</span>
+<span class="item-topic"><a href="https://iter01.com/topic/13.html">NLP</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/552807.html" title="【目標檢測】2萬字詳解 RCNN系列 YOLO系列 YOLOv3程式碼實現全流程詳解 pytorch">【目標檢測】2萬字詳解 RCNN系列 YOLO系列 YOLOv3程式碼實現全流程詳解 pytorch</a>
+<div class="article-meta">
+<span class="item-date">2020-11-09</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/553336.html" title="Python深度學習（在小型資料集上從頭開始訓練一個卷積神經網路）--學習筆記（十）">Python深度學習（在小型資料集上從頭開始訓練一個卷積神經網路）--學習筆記（十）</a>
+<div class="article-meta">
+<span class="item-date">2020-11-10</span>
+<span class="item-topic"><a href="https://iter01.com/topic/14.html">Python</a></span><span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span><span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/553906.html" title="卷積神經網路進行影像識別">卷積神經網路進行影像識別</a>
+<div class="article-meta">
+<span class="item-date">2020-11-11</span>
+<span class="item-topic"><a href="https://iter01.com/topic/29.html">影像識別</a></span><span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/555669.html" title="吳恩達深度學習：簡單卷積網路">吳恩達深度學習：簡單卷積網路</a>
+<div class="article-meta">
+<span class="item-date">2020-11-15</span>
+<span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/555681.html" title="吳恩達深度學習：單層卷積網路">吳恩達深度學習：單層卷積網路</a>
+<div class="article-meta">
+<span class="item-date">2020-11-15</span>
+<span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/555700.html" title="吳恩達深度學習：三維卷積">吳恩達深度學習：三維卷積</a>
+<div class="article-meta">
+<span class="item-date">2020-11-15</span>
+<span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/555861.html" title="淺析py-faster-rcnn中不同版本caffe的安裝及其對應不同版本cudnn的解決方案">淺析py-faster-rcnn中不同版本caffe的安裝及其對應不同版本cudnn的解決方案</a>
+<div class="article-meta">
+<span class="item-date">2020-11-16</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/556356.html" title="詳解 1x1 卷積核">詳解 1x1 卷積核</a>
+<div class="article-meta">
+<span class="item-date">2020-11-17</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/556557.html" title="Tied Block Convolution：一種共享filter的卷積形態">Tied Block Convolution：一種共享filter的卷積形態</a>
+<div class="article-meta">
+<span class="item-date">2020-11-17</span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/557443.html" title="圖卷積神經網路(GCN)理解與tensorflow2.0程式碼實現">圖卷積神經網路(GCN)理解與tensorflow2.0程式碼實現</a>
+<div class="article-meta">
+<span class="item-date">2020-11-19</span>
+<span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/558156.html" title="【深度學習原理第4篇】卷積神經網路詳解（CNN）">【深度學習原理第4篇】卷積神經網路詳解（CNN）</a>
+<div class="article-meta">
+<span class="item-date">2020-11-21</span>
+<span class="item-topic"><a href="https://iter01.com/topic/23.html">深度學習</a></span><span class="item-topic"><a href="https://iter01.com/topic/70.html">神經網路</a></span>
+</div>
+</li>
+<li>
+<a class="article-title" href="https://iter01.com/558394.html" title="CS131 homework1 使用numpy實現卷積">CS131 homework1 使用numpy實現卷積</a>
+<div class="article-meta">
+<span class="item-date">2020-11-21</span>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row"></div>
+</div>
+
+<div class="col-xs-12 col-sm-4 " id="sidebar">
+<div class="block">
+<h3 class="block-title">最新文章</h3>
+<ul class="sidebar-article-list">
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589467.html" title="推薦一個學習php8的新特性的文件">推薦一個學習php8的新特性的文件</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589468.html" title="Fastdata極數：2020年中國線上旅遊行業報告（下載）">Fastdata極數：2020年中國線上旅遊行業報告（下載）</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589466.html" title="阿里巴巴國際站：2021年1月運動娛樂行業趨勢報告（附下載）">阿里巴巴國際站：2021年1月運動娛樂行業趨勢報告（附下載）</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589465.html" title="Sensor Tower：2020年前100個訂閱應用消費支出增長34%">Sensor Tower：2020年前100個訂閱應用消費支出增長34%</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589464.html" title="艾瑞諮詢：2021年中國企業直播服務行業發展研究報告（附下載）">艾瑞諮詢：2021年中國企業直播服務行業發展研究報告（附下載）</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589459.html" title="我實現了一個更全面的 Golang 版本的布穀鳥過濾器">我實現了一個更全面的 Golang 版本的布穀鳥過濾器</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589456.html" title="vscode配置golang開發環境手把手描述篇">vscode配置golang開發環境手把手描述篇</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589457.html" title="Linux shell基礎2">Linux shell基礎2</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589453.html" title="2.插入排序演算法(Insertion_Sort)">2.插入排序演算法(Insertion_Sort)</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589452.html" title="MySQL學習之change buffer 和 redo log">MySQL學習之change buffer 和 redo log</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589454.html" title="線上MySQL讀寫分離，出現寫完讀不到問題如何解決">線上MySQL讀寫分離，出現寫完讀不到問題如何解決</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589442.html" title="物件的建立和分配">物件的建立和分配</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589445.html" title="快速安裝laravel框架的IDE提示工具">快速安裝laravel框架的IDE提示工具</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589441.html" title="如何在 C# 中使用 Channels">如何在 C# 中使用 Channels</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589440.html" title="Springboot 輕量替代框架 Solon 1.3.10 釋出">Springboot 輕量替代框架 Solon 1.3.10 釋出</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589435.html" title="【C/C++】 C++暫存器優化">【C/C++】 C++暫存器優化</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589434.html" title="celery 與 flask 實現非同步任務排程">celery 與 flask 實現非同步任務排程</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589433.html" title="【Azure API 管理】從微信小程式訪問APIM出現200空響應的問題中發現CORS的屬性[terminate-unmatched-request]功能">【Azure API 管理】從微信小程式訪問APIM出現200空響應的問題中發現CORS的屬性[terminate-unmatched-request]功能</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589381.html" title="web影像化服務管理工具">web影像化服務管理工具</a>
+</li>
+<li>
+<a class="sidebar-article-title" href="https://iter01.com/589375.html" title="【HTB系列】靶機Bitlab的滲透測試">【HTB系列】靶機Bitlab的滲透測試</a>
+</li>
+</ul>
+</div>
+<div id="sticker">
+<div style="width:300px; margin: 30px auto 0;">
+
+<ins class="adsbygoogle" style="display:inline-block;width:300px;height:600px" data-ad-client="ca-pub-7340274291447970" data-ad-slot="8642013255" data-adsbygoogle-status="done"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_3_anchor" style="display:block;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;"><iframe id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0;width:300px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="600" frameborder="0" src="./03_files/ads(2).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL2l0ZXIwMS5jb20vNDgwMjQzLmh0bWwifQ..&quot;}" data-google-container-id="a!4" data-google-query-id="CP7D9ImI2u8CFVRzYAodxfgDDg" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+</div>
+</div>
+</div>
+<hr>
+<footer>
+<p>© <a href="https://iter01.com/">iter01.com</a> 2021
+</p>
+</footer>
+</div><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important;"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="./03_files/ads(3).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL2l0ZXIwMS5jb20vNDgwMjQzLmh0bWwifQ..&quot;}" data-google-container-id="a!1" data-load-complete="true"></iframe></ins></ins></ins>
+<script src="./03_files/jquery.min.js.下載"></script>
+<script async="" src="./03_files/run_prettify.min.js.下載"></script>
+<script type="text/javascript" src="./03_files/ff011ee97f06.js.下載" async=""></script>
+<script async="" src="./03_files/js"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-272347-129');
+</script>
+<script src="./03_files/aap"></script>
+<script>var ttt = '0.10054492950439453';</script>
+
+
+<iframe id="google_osd_static_frame_889627876599" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./03_files/saved_resource.html"></iframe></body><iframe id="google_esf" name="google_esf" src="./03_files/zrt_lookup.html" data-ad-client="ca-pub-7340274291447970" style="display: none;"></iframe><ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important; width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; clear: none !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; position: fixed !important; vertical-align: baseline !important; visibility: visible !important; z-index: 2147483647 !important; background-color: transparent;" aria-hidden="true" data-vignette-loaded="true"><ins id="aswift_4_expand" style="display: inline-table !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_4_anchor" style="display: block !important; border: none !important; height: 100vh !important; margin: 0px !important; padding: 0px !important; position: relative !important; visibility: visible !important; width: 100vw !important; background-color: transparent !important; inset: auto !important; clear: none !important; float: none !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; vertical-align: baseline !important; z-index: auto !important;"><iframe id="aswift_4" name="" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="" height="" frameborder="0" src="./03_files/zrt_lookup(1).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" style="width: 100vw !important; height: 100vh !important; inset: 0px auto auto 0px !important; position: absolute !important; clear: none !important; display: inline !important; float: none !important; margin: 0px !important; max-height: none !important; max-width: none !important; opacity: 1 !important; overflow: visible !important; padding: 0px !important; vertical-align: baseline !important; visibility: visible !important; z-index: auto !important;" data-google-container-id="a!5" data-google-query-id="CL6884mI2u8CFZMYYAod8GAEVQ" data-load-complete="true"></iframe></ins></ins></ins></html>

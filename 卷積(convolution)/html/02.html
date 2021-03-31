@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)https://www.twblogs.net/a/5baff4582b7177781a0f7bc8 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="google-site-verification" content="QSl8rlXGYak0SPdlX0r_tMqD7I6XFuWD1JxR_D9PbyM">
+<meta name="msvalidate.01" content="4775F105590951C69208A1E849EF0F32">
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>最容易理解的對卷積(convolution)的解釋 - 台部落</title>
+<meta name="description" content="
+1.知乎上排名最高的解釋
+首先選取知乎上對卷積物理意義解答排名最靠前的回答。
+不推薦用“反轉/翻轉/反褶/對稱”等解釋卷積。好好的信號爲什麼要翻轉？導致學生難以理解卷積的物理意義。
+這個其實非常簡單的概念，國內的大多數教材卻沒有講透。
+直">
+<link rel="dns-prefetch preconnect" href="https://www.google-analytics.com/">
+<link rel="dns-prefetch preconnect" href="https://pagead2.googlesyndication.com/">
+<link rel="dns-prefetch preconnect" href="https://googleads.g.doubleclick.net/">
+<link rel="dns-prefetch preconnect" href="https://www.googletagmanager.com/">
+<link rel="shortcut icon" type="image/png" href="https://www.twblogs.net/static/images/favicon.ico">
+<link rel="stylesheet" type="text/css" href="./02_files/fontello.css">
+<link rel="stylesheet" type="text/css" href="./02_files/bootstrap.min.css">
+<script src="./02_files/osd.js.下載"></script><script src="./02_files/f(2).txt"></script><script async="" src="./02_files/async-ads.js.下載"></script><script async="" src="./02_files/async-ads.js.下載"></script><script type="text/javascript" async="" src="./02_files/analytics.js.下載"></script><script src="./02_files/f(3).txt" id="google_shimpl"></script><script type="text/javascript" async="" src="./02_files/f(4).txt"></script><script async="" src="./02_files/gtm.js.下載"></script><script type="text/javascript" src="./02_files/jquery-3.3.1.min.js.下載"></script>
+<script type="text/javascript" src="./02_files/lozad.min.js.下載"></script>
+<script type="text/javascript" src="./02_files/js.cookie.min.js.下載"></script>
+<script type="text/javascript" src="./02_files/common.js.下載"></script>
+<script type="text/javascript" src="./02_files/bootstrap.min.js.下載"></script>
+<link rel="stylesheet" type="text/css" href="./02_files/header.css">
+<link rel="stylesheet" type="text/css" href="./02_files/main.css">
+<script type="text/javascript" src="./02_files/main.js.下載"></script>
+<script async="" type="text/javascript" src="./02_files/login.js.下載"></script>
+<script src="./02_files/highlight.pack.js.下載"></script>
+<link rel="stylesheet" href="./02_files/default.css">
+<link rel="alternate" hreflang="zh-Hant" href="https://www.twblogs.net/a/5baff4582b7177781a0f7bc8">
+<link rel="alternate" hreflang="zh-Hans" href="https://www.twblogs.net/a/5baff4582b7177781a0f7bc8/?lang=zh-cn">
+
+<script async="" src="./02_files/js"></script>
+<script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-135472877-1');
+    </script>
+<script async="" src="./02_files/f(5).txt"></script>
+
+
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-WV8L3BL');</script>
+
+<script type="text/javascript" src="./02_files/article.js.下載"></script>
+
+<meta http-equiv="origin-trial" content="A+b/H0b8RPXNaJgaNFpO0YOFuGK6myDQXlwnJB3SwzvNMfcndat4DZYMrP4ClJIzYWo3/yP2S+8FTZ/lpqbPAAEAAABueyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzVGhpcmRQYXJ0eSI6dHJ1ZX0="><meta http-equiv="origin-trial" content="A9ZgbRtm4pU3oZiuNzOsKcC8ppFSZdcjP2qYcdQrFKVzkmiWH1kdYY1Mi9x7G8+PS8HV9Ha9Cz0gaMdKsiVZIgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="AxL6oBxcpn5rQDPKSAs+d0oxNyJYq2/4esBUh3Yx5z8QfcLu+AU8iFCXYRcr/CEEfDnkxxLTsvXPJFQBxHfvkgMAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A9KPtG5kl3oLTk21xqynDPGQ5t18bSOpwt0w6kGa6dEWbuwjpffmdUpR3W+faZDubGT+KIk2do0BX2ca16x8qAcAAACBeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiVHJ1c3RUb2tlbnMiLCJleHBpcnkiOjE2MjYyMjA3OTksImlzU3ViZG9tYWluIjp0cnVlLCJpc1RoaXJkUGFydHkiOnRydWV9"><meta http-equiv="origin-trial" content="A3HucHUo1oW9s+9kIKz8mLkbcmdaj5lxt3eiIMp1Nh49dkkBlg1Fhg4Fd/r0vL69mRRA36YutI9P/lJUfL8csQoAAACFeyJvcmlnaW4iOiJodHRwczovL2RvdWJsZWNsaWNrLm5ldDo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A0OysezhLoCRYomumeYlubLurZTCmsjTb087OvtCy95jNM65cfEsbajrJnhaGwiTxhz38ZZbm+UhUwQuXfVPTg0AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXN5bmRpY2F0aW9uLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="AxoOxdZQmIoA1WeAPDixRAeWDdgs7ZtVFfH2y19ziTgD1iaHE5ZGz2UdSjubkWvob9C5PrjUfkWi4ZSLgWk3Xg8AAACLeyJvcmlnaW4iOiJodHRwczovL2dvb2dsZXRhZ3NlcnZpY2VzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1N1YmRvbWFpbiI6dHJ1ZSwiaXNUaGlyZFBhcnR5Ijp0cnVlfQ=="><meta http-equiv="origin-trial" content="A7+rMYR5onPnACrz+niKSeFdH3xw1IyHo2AZSHmxrofRk9w4HcQPMYcpBUKu6OQ6zsdxf4m/vqa6tG6Na4OLpAQAAAB4eyJvcmlnaW4iOiJodHRwczovL2ltYXNkay5nb29nbGVhcGlzLmNvbTo0NDMiLCJmZWF0dXJlIjoiQ29udmVyc2lvbk1lYXN1cmVtZW50IiwiZXhwaXJ5IjoxNjI2MjIwNzk5LCJpc1RoaXJkUGFydHkiOnRydWV9"><script src="./02_files/cse_element__zh_tw.js.下載" type="text/javascript"></script><link type="text/css" rel="stylesheet" href="./02_files/default+zh_TW.css"><link type="text/css" rel="stylesheet" href="./02_files/default(1).css"><style type="text/css">.gsc-control-cse{font-family:helvetica neue, arial, sans-serif}.gsc-control-cse .gsc-table-result{font-family:helvetica neue, arial, sans-serif}.gsc-refinementsGradient{background:linear-gradient(to left,rgba(255,255,255,1),rgba(255,255,255,0))}.gsc-control-cse{border-color:#FFFFFF;background-color:#FFFFFF}input.gsc-input,.gsc-input-box,.gsc-input-box-hover,.gsc-input-box-focus{border-color:#FD484D}.gsc-search-button-v2,.gsc-search-button-v2:hover,.gsc-search-button-v2:focus{border-color:#FD484D;background-color:#FD484D;background-image:none;filter:none}.gsc-search-button-v2 svg{fill:#FFFFFF}.gsc-tabHeader.gsc-tabhActive,.gsc-refinementHeader.gsc-refinementhActive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-tabHeader.gsc-tabhInactive,.gsc-refinementHeader.gsc-refinementhInactive{color:#CCCCCC;border-color:#CCCCCC;background-color:#FFFFFF}.gsc-webResult.gsc-result,.gsc-results .gsc-imageResult{border-color:#FFFFFF;background-color:#FFFFFF}.gsc-webResult.gsc-result:hover{border-color:#FFFFFF;background-color:#FAFAFA}.gs-webResult.gs-result a.gs-title:link,.gs-webResult.gs-result a.gs-title:link b,.gs-imageResult a.gs-title:link,.gs-imageResult a.gs-title:link b{color:#0000CC}.gs-webResult.gs-result a.gs-title:visited,.gs-webResult.gs-result a.gs-title:visited b,.gs-imageResult a.gs-title:visited,.gs-imageResult a.gs-title:visited b{color:#741B47}.gs-webResult.gs-result a.gs-title:hover,.gs-webResult.gs-result a.gs-title:hover b,.gs-imageResult a.gs-title:hover,.gs-imageResult a.gs-title:hover b{color:#FD484D}.gs-webResult.gs-result a.gs-title:active,.gs-webResult.gs-result a.gs-title:active b,.gs-imageResult a.gs-title:active,.gs-imageResult a.gs-title:active b{color:#0000CC}.gsc-cursor-page{color:#0000CC}a.gsc-trailing-more-results:link{color:#0000CC}.gs-webResult:not(.gs-no-results-result):not(.gs-error-result) .gs-snippet,.gs-fileFormatType{color:#000000}.gs-webResult div.gs-visibleUrl{color:#999999}.gs-webResult div.gs-visibleUrl-short{color:#999999}.gsc-cursor-box{border-color:#FFFFFF}.gsc-results .gsc-cursor-box .gsc-cursor-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-results .gsc-cursor-box .gsc-cursor-current-page{border-color:#CCCCCC;background-color:#FFFFFF;color:#CCCCCC}.gsc-webResult.gsc-result.gsc-promotion{border-color:#336699;background-color:#FFFFFF}.gsc-completion-title{color:#0000CC}.gsc-completion-snippet{color:#000000}.gs-promotion a.gs-title:link,.gs-promotion a.gs-title:link *,.gs-promotion .gs-snippet a:link{color:#0000CC}.gs-promotion a.gs-title:visited,.gs-promotion a.gs-title:visited *,.gs-promotion .gs-snippet a:visited{color:#0000CC}.gs-promotion a.gs-title:hover,.gs-promotion a.gs-title:hover *,.gs-promotion .gs-snippet a:hover{color:#0000CC}.gs-promotion a.gs-title:active,.gs-promotion a.gs-title:active *,.gs-promotion .gs-snippet a:active{color:#0000CC}.gs-promotion .gs-snippet,.gs-promotion .gs-title .gs-promotion-title-right,.gs-promotion .gs-title .gs-promotion-title-right *{color:#000000}.gs-promotion .gs-visibleUrl,.gs-promotion .gs-visibleUrl-short{color:#008000}.gcsc-find-more-on-google{color:#0000CC}.gcsc-find-more-on-google-magnifier{fill:#0000CC}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding:5px 9px 4px 9px}.gscb_a{line-height:27px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{vertical-align:middle;opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gssb_a{padding:0 9px}.gsib_a{padding:5px 9px 4px 9px}.gscb_a{line-height:27px}.gssb_e{border:0}.gssb_l{margin:5px 0}input.gsc-input::-webkit-input-placeholder{font-size:14px}input.gsc-input:-moz-placeholder{font-size:14px}input.gsc-input::-moz-placeholder{font-size:14px}input.gsc-input:-ms-input-placeholder{font-size:14px}input.gsc-input:focus::-webkit-input-placeholder{color:transparent}input.gsc-input:focus:-moz-placeholder{color:transparent}input.gsc-input:focus::-moz-placeholder{color:transparent}input.gsc-input:focus:-ms-input-placeholder{color:transparent}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><link rel="preload" href="./02_files/f(6).txt" as="script"><script type="text/javascript" src="./02_files/f(6).txt"></script><link rel="preload" href="./02_files/f(7).txt" as="script"><script type="text/javascript" src="./02_files/f(7).txt"></script></head>
+<body>
+<div class="header-wrapper">
+<div class="container">
+<header>
+<div class="header-top">
+<a class="search-toggle">
+<img src="./02_files/search-grey-bold.svg">
+</a>
+<a class="logo" href="https://www.twblogs.net/">
+<img src="./02_files/logo.png" data-loaded="true">
+<span>台部落</span>
+</a>
+<div class="meta-bar">
+<div id="google-search-bar">
+<div id="___gcse_0"><div class="gsc-control-cse gsc-control-cse-zh-TW"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id1"><table cellspacing="0" cellpadding="0" id="gs_id50" class="gstl_50 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti50" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="搜尋" id="gsc-i-id1" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; outline: none;"></td><td class="gsib_b"><div class="gsst_b" id="gs_st50" dir="ltr"><a class="gsst_a" href="javascript:void(0)" title="清除搜尋框" role="button" style="display: none;"><span class="gscb_a" id="gs_cb50" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>搜尋</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="清除結果">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-overlay"><div class="gsc-results-close-btn" tabindex="0"></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"><div aria-label="refinement" role="tab" class="gsc-tabHeader gsc-inline-block gsc-tabhActive">自訂搜尋</div><span class="gs-spacer"> </span></div></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"></div></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">排序依據：</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><div><div class="gsc-expansionArea"></div></div></div></div></div></div><div class="gsc-modal-background-image" tabindex="0"></div></div></div></div>
+</div>
+<a href="https://www.twblogs.net/account/register?src=/" target="_blank" class="signup">註冊</a>
+<a class="login" href="https://www.twblogs.net/a/5baff4582b7177781a0f7bc8#">登錄</a>
+<a href="https://www.twblogs.net/mp/postedit/" class="write-btn">
+寫文章
+</a>
+<a id="menu-icon">
+<img src="./02_files/menu.svg">
+</a>
+</div>
+</div>
+</header>
+<div id="google-search-layer">
+<div id="___gcse_1"><div class="gsc-control-cse gsc-control-cse-zh-TW"><div class="gsc-control-wrapper-cse" dir="ltr"><form class="gsc-search-box gsc-search-box-tools" accept-charset="utf-8"><table cellspacing="0" cellpadding="0" class="gsc-search-box"><tbody><tr><td class="gsc-input"><div class="gsc-input-box" id="gsc-iw-id2"><table cellspacing="0" cellpadding="0" id="gs_id51" class="gstl_51 gsc-input" style="width: 100%; padding: 0px;"><tbody><tr><td id="gs_tti51" class="gsib_a"><input autocomplete="off" type="text" size="10" class="gsc-input" name="search" title="搜尋" id="gsc-i-id2" dir="ltr" spellcheck="false" style="width: 100%; padding: 0px; border: none; margin: 0px; height: auto; outline: none;"></td><td class="gsib_b"><div class="gsst_b" id="gs_st51" dir="ltr"><a class="gsst_a" href="javascript:void(0)" title="清除搜尋框" role="button" style="display: none;"><span class="gscb_a" id="gs_cb51" aria-hidden="true">×</span></a></div></td></tr></tbody></table></div></td><td class="gsc-search-button"><button class="gsc-search-button gsc-search-button-v2"><svg width="13" height="13" viewBox="0 0 13 13"><title>搜尋</title><path d="m4.8495 7.8226c0.82666 0 1.5262-0.29146 2.0985-0.87438 0.57232-0.58292 0.86378-1.2877 0.87438-2.1144 0.010599-0.82666-0.28086-1.5262-0.87438-2.0985-0.59352-0.57232-1.293-0.86378-2.0985-0.87438-0.8055-0.010599-1.5103 0.28086-2.1144 0.87438-0.60414 0.59352-0.8956 1.293-0.87438 2.0985 0.021197 0.8055 0.31266 1.5103 0.87438 2.1144 0.56172 0.60414 1.2665 0.8956 2.1144 0.87438zm4.4695 0.2115 3.681 3.6819-1.259 1.284-3.6817-3.7 0.0019784-0.69479-0.090043-0.098846c-0.87973 0.76087-1.92 1.1413-3.1207 1.1413-1.3553 0-2.5025-0.46363-3.4417-1.3909s-1.4088-2.0686-1.4088-3.4239c0-1.3553 0.4696-2.4966 1.4088-3.4239 0.9392-0.92727 2.0864-1.3969 3.4417-1.4088 1.3553-0.011889 2.4906 0.45771 3.406 1.4088 0.9154 0.95107 1.379 2.0924 1.3909 3.4239 0 1.2126-0.38043 2.2588-1.1413 3.1385l0.098834 0.090049z"></path></svg></button></td><td class="gsc-clear-button"><div class="gsc-clear-button" title="清除結果">&nbsp;</div></td></tr></tbody></table></form><div class="gsc-results-wrapper-overlay"><div class="gsc-results-close-btn" tabindex="0"></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"><div aria-label="refinement" role="tab" class="gsc-tabHeader gsc-inline-block gsc-tabhActive">自訂搜尋</div><span class="gs-spacer"> </span></div></div><div class="gsc-positioningWrapper"><div class="gsc-tabsAreaInvisible"></div></div><div class="gsc-above-wrapper-area-invisible"><table cellspacing="0" cellpadding="0" class="gsc-above-wrapper-area-container"><tbody><tr><td class="gsc-result-info-container"><div class="gsc-result-info-invisible"></div></td><td class="gsc-orderby-container"><div class="gsc-orderby-invisible"><div class="gsc-orderby-label gsc-inline-block">排序依據：</div><div class="gsc-option-menu-container gsc-inline-block"><div class="gsc-selected-option-container gsc-inline-block"><div class="gsc-selected-option">Relevance</div><div class="gsc-option-selector"></div></div><div class="gsc-option-menu-invisible"><div class="gsc-option-menu-item gsc-option-menu-item-highlighted"><div class="gsc-option">Relevance</div></div><div class="gsc-option-menu-item"><div class="gsc-option">Date</div></div></div></div></div></td></tr></tbody></table></div><div class="gsc-adBlockInvisible"></div><div class="gsc-wrapper"><div class="gsc-adBlockInvisible"></div><div class="gsc-resultsbox-invisible"><div class="gsc-resultsRoot gsc-tabData gsc-tabdActive"><div><div class="gsc-expansionArea"></div></div></div></div></div></div><div class="gsc-modal-background-image" tabindex="0"></div></div></div></div>
+</div>
+</div>
+</div>
+
+<div class="mobile-menu-background">
+</div>
+<div class="mobile-menu">
+<img class="mobile-menu-close" src="./02_files/cross.svg">
+</div>
+
+<div id="login-layer-wrapper" class="overlay">
+<div class="login-layer">
+<img class="login-layer-close-button" src="./02_files/cross.svg">
+<div class="user-form">
+<form id="login-form" action="https://www.twblogs.net/account/login?src=https://www.twblogs.net/a/5baff4582b7177781a0f7bc8" method="post">
+<input type="hidden" name="_xsrf" value="2|f949aa5c|365d70a40d48421a3165fc62ab78ac65|1617175700">
+<ul class="form-ul">
+<li>
+<input name="email" type="text" placeholder="電子郵件">
+</li>
+<li>
+<input name="passwd" type="password" value="" placeholder="請輸入密碼" autocomplete="off">
+</li>
+<li>
+<div class="err-info" style="display:none">請輸入正確的登錄賬號或密碼</div>
+</li>
+<li>
+<input type="submit" value="登录">
+</li>
+<li class="reg-link-container">
+<a href="https://www.twblogs.net/account/register?src=/" target="_blank" class="reg-link">註冊</a>
+</li>
+<li class="reg-link-container">
+<a href="https://www.twblogs.net/account/password_forgot/" target="_blank" class="reg-link">忘記密碼</a>
+</li>
+</ul>
+</form>
+</div>
+</div>
+</div>
+<script>
+(function() {
+var cx = 'partner-pub-2073744953016040:8541733644';
+var gcse = document.createElement('script');
+gcse.type = 'text/javascript';
+gcse.async = true;
+gcse.src = 'https://cse.google.com/cse.js?cx=' + cx;
+var s = document.getElementsByTagName('script')[0];
+s.parentNode.insertBefore(gcse, s);
+})();
+</script>
+<div id="backTop" style="right: 1rem; display: block;"><i class="icon-up-open-1"></i></div>
+<div class="container" id="content-wrapper" style="height: auto !important;">
+<div id="toolbox">
+<ul style="position:fixed;">
+<li class="vote vote-up"><i class="icon-thumbs-up-alt" title=""></i></li>
+<li class="vote vote-down"><i class="icon-thumbs-down-alt" title=""></i></li>
+</ul>
+</div>
+<div class="content" style="height: auto !important;">
+<div class="main-content">
+<div class="article-wrapper">
+<nav aria-label="breadcrumb">
+<ol class="breadcrumb">
+<li class="breadcrumb-item"><a href="https://www.twblogs.net/">首頁</a></li>
+<li class="breadcrumb-item"><a href="https://www.twblogs.net/c/5b7a8a9d2b7177392c9641de/">未分類</a></li>
+<li class="breadcrumb-item active" aria-current="page">正文</li>
+</ol>
+</nav>
+<h1>最容易理解的對卷積(convolution)的解釋</h1>
+<div class="post-meta">
+<span class="original">原創</span>
+<img src="./02_files/user.svg" data-loaded="true">
+<a href="https://www.twblogs.net/u/5baff44d2b7177781a0f7bb4" target="_blank">落叶大乔木</a>
+<img src="./02_files/clock.svg" data-loaded="true">
+<span> 2018-09-30 05:53 </span>
+</div>
+<div class="article-content">
+<h2 id="1知乎上排名最高的解釋">1.知乎上排名最高的解釋</h2>
+<p>首先選取知乎上對卷積物理意義解答排名最靠前的回答。<br>
+不推薦用“反轉/翻轉/反褶/對稱”等解釋卷積。好好的信號爲什麼要翻轉？導致學生難以理解卷積的物理意義。<br>
+這個其實非常簡單的概念，國內的大多數教材卻沒有講透。</p>
+<p>直接看圖，不信看不懂。以離散信號爲例，連續信號同理。</p>
+<p>已知x[0] = a, x[1] = b, x[2]=c<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145104251?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145104251" data-loaded="true"></p>
+<p>已知y[0] = i, y[1] = j, y[2]=k<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145148720?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145148720" data-loaded="true"></p>
+<p>下面通過演示求x[n] * y[n]的過程，揭示卷積的物理意義。</p>
+<p>第一步，x[n]乘以y[0]並平移到位置0：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145221049?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145221049" data-loaded="true"></p>
+<p>第二步，x[n]乘以y[1]並平移到位置1<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145254830?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145254830" data-loaded="true"></p>
+<p>第三步，x[n]乘以y[2]並平移到位置2：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145329799?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145329799" data-loaded="true"></p>
+<p>最後，把上面三個圖疊加，就得到了x[n] * y[n]：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125145417434?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125145417434" data-loaded="true"></p>
+<p>簡單吧？無非是平移（沒有反褶！）、疊加。<br>
+從這裏，可以看到卷積的重要的物理意義是：一個函數（如：單位響應）在另一個函數（如：輸入信號）上的加權疊加。</p>
+<p>重複一遍，這就是卷積的意義：加權疊加。</p>
+<p>對於線性時不變系統，如果知道該系統的單位響應，那麼將單位響應和輸入信號求卷積，就相當於把輸入信號的各個時間點的單位響應 加權疊加，就直接得到了輸出信號。</p>
+<p>通俗的說：<br>
+在輸入信號的每個位置，疊加一個單位響應，就得到了輸出信號。<br>
+這正是單位響應是如此重要的原因。</p>
+<p>在輸入信號的每個位置，疊加一個單位響應，就得到了輸出信號。<br>
+這正是單位響應是如此重要的原因。</p>
+<p>在輸入信號的每個位置，疊加一個單位響應，就得到了輸出信號。<br>
+這正是單位響應是如此重要的原因。</p>
+<p>以上是知乎上排名最高的回答。比較簡單易懂。</p>
+<p>有個回覆也可以參考：<br>
+樓主這種做法和通常教材上的區別在於：書上先反褶再平移，把輸入信號當作一個整體，一次算出一個時間點的響應值；而樓主把信號拆開，一次算出一個信號在所有時間的響應值，再把各個信號相加。兩者本質上是相同的。</p>
+<h2 id="2卷積的另外解釋"><a name="t2"></a>2.卷積的另外解釋</h2>
+<p>卷積表示爲y(n)=x(n)∗h(n)y(n)=x(n)∗h(n)<br>
+使用離散數列來理解卷積會更形象一點，我們把y(n)的序列表示成y(0),y(1),y(2),⋯y(0),y(1),y(2),⋯, 這是系統響應出來的信號。<br>
+同理，x(n)x(n)的對應時刻的序列爲x(0),x(1),x(2),⋯x(0),x(1),x(2),⋯<br>
+其實我們如果沒有學過信號與系統，就常識來講，系統的響應不僅與當前時刻系統的輸入有關，也跟之前若干時刻的輸入有關，因爲我們可以理解爲這是之前時刻的輸入信號經過一種過程（這種過程可以是遞減，削弱，或其他）對現在時刻系統輸出的影響，那麼顯然，我們計算系統輸出時就必須考慮現在時刻的信號輸入的響應以及之前若干時刻信號輸入的響應之“殘留”影響的一個疊加效果。<br>
+假設0時刻系統響應爲y(0)y(0),若其在1時刻時，此種響應未改變，則1時刻的響應就變成了y(0)+y(1)y(0)+y(1),叫序列的累加和（與序列的和不一樣）。但常常系統中不是這樣的，因爲0時刻的響應不太可能在1時刻仍舊未變化，那麼怎麼表述這種變化呢，就通過h(t)這個響應函數與x(0)相乘來表述，表述爲x(m)×h(m−n)x(m)×h(m−n)，具體表達式不用多管，只要記着有大概這種關係，引入這個函數就能夠表述y(0)y(0)在1時刻究竟削弱了多少，然後削弱後的值纔是y(0)y(0)在1時刻的真實值，再通過累加和運算，纔得到真實的系統響應。<br>
+再拓展點，某時刻的系統響應往往不一定是由當前時刻和前一時刻這兩個響應決定的，也可能是再加上前前時刻，前前前時刻，前前前前時刻，等等，那麼怎麼約束這個範圍呢，就是通過對h(n)h(n)這個函數在表達式中變化後的h(m−n)h(m−n)中的m的範圍來約束的。即說白了，就是當前時刻的系統響應與多少個之前時刻的響應的“殘留影響”有關。<br>
+當考慮這些因素後，就可以描述成一個系統響應了，而這些因素通過一個表達式（卷積）即描述出來不得不說是數學的巧妙和迷人之處了。</p>
+<h2 id="3卷積的數學定義"><a name="t3"></a>3.卷積的數學定義</h2>
+<p>前面講了這麼多，我們看看教科書上對卷積的數學定義。<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20170125150645874?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20170125150645874" data-loaded="true"></p>
+<h2 id="4卷積的應用"><a name="t4"></a>4.卷積的應用</h2>
+<p>用一個模板和一幅圖像進行卷積，對於圖像上的一個點，讓模板的原點和該點重合，然後模板上的點和圖像上對應的點相乘，然後各點的積相加，就得到了該點的卷積值。對圖像上的每個點都這樣處理。由於大多數模板都是對稱的，所以模板不旋轉。卷積是一種積分運算，用來求兩個曲線重疊區域面積。可以看作加權求和，可以用來消除噪聲、特徵增強。<br>
+把一個點的像素值用它周圍的點的像素值的加權平均代替。<br>
+卷積是一種線性運算,圖像處理中常見的mask運算都是卷積，廣泛應用於圖像濾波。<br>
+卷積關係最重要的一種情況，就是在信號與線性系統或數字信號處理中的卷積定理。利用該定理，可以將時間域或空間域中的卷積運算等價爲頻率域的相乘運算，從而利用FFT等快速算法，實現有效的計算，節省運算代價。</p>
+<h2 id="5補充"><a name="t5"></a>5.補充</h2>
+<p>另外在知乎上看到非常好也非常生動形象的解釋，特意複製粘貼過來。(知乎馬同學的解釋)</p>
+<p>從數學上講，卷積就是一種運算。<br>
+某種運算，能被定義出來，至少有以下特徵：<br>
+1.首先是抽象的、符號化的<br>
+2.其次，在生活、科研中，有着廣泛的作用</p>
+<p>比如加法：<br>
+1.a+b，是抽象的，本身只是一個數學符號<br>
+2.在現實中，有非常多的意義，比如增加、合成、旋轉等等</p>
+<p>卷積，是我們學習高等數學之後，新接觸的一種運算，因爲涉及到積分、級數，所以看起來覺得很複雜。</p>
+<p><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205211420901?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205211420901" data-loaded="true"></p>
+<p>這兩個式子有一個共同的特徵：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205211530382?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205211530382" data-loaded="true"></p>
+<p>這個特徵有什麼意義？</p>
+<p>只看數學符號，卷積是抽象的，不好理解的，但是，我們可以通過現實中的意義，來習慣卷積這種運算，正如我們小學的時候，學習加減乘除需要各種蘋果、糖果來幫助我們習慣一樣。</p>
+<p>我們來看看現實中，這樣的定義有什麼意義。</p>
+<p>2 離散卷積的例子：丟骰子</p>
+<p>我有兩枚骰子：</p>
+<p><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205211835159?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205211835159" data-loaded="true"></p>
+<p>把這兩枚骰子都拋出去：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205211901343?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205211901343" data-loaded="true"></p>
+<p>求：兩枚骰子點數加起來爲4的概率是多少?<br>
+這裏問題的關鍵是，兩個骰子加起來要等於4，這正是卷積的應用場景。</p>
+<p>我們把骰子各個點數出現的概率表示出來：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205212150947?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205212150947" data-loaded="true"></p>
+<p>那麼，兩枚骰子點數加起來爲4的情況有：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205212227344?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205212227344" data-loaded="true"></p>
+<p><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205212259978?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205212259978" data-loaded="true"></p>
+<p><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205212320349?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205212320349" data-loaded="true"></p>
+<p>因此，兩枚骰子點數加起來爲4的概率爲：<br>
+f(1)g(3)+f(2)g(2)+f(3)g(1)</p>
+<p>符合卷積的定義，把它寫成標準的形式就是：</p>
+<p>&nbsp;</p>
+<p>(f∗g)(4)=∑m=13f(4−m)g(m)(f∗g)(4)=∑m=13f(4−m)g(m)</p>
+<p>&nbsp;</p>
+<p>3 連續卷積的例子：做饅頭</p>
+<p>樓下早點鋪子生意太好了，供不應求，就買了一臺機器，不斷的生產饅頭。<br>
+假設饅頭的生產速度是 f(t) ，那麼一天後生產出來的饅頭總量爲：<br>
+∫240f(t)dt∫024f(t)dt<br>
+饅頭生產出來之後，就會慢慢腐敗，假設腐敗函數爲 g(t) ，比如，10個饅頭，24小時會腐敗：<br>
+10∗g(t)10∗g(t)<br>
+想想就知道，第一個小時生產出來的饅頭，一天後會經歷24小時的腐敗，第二個小時生產出來的饅頭，一天後會經歷23小時的腐敗。<br>
+如此，我們可以知道，一天後，饅頭總共腐敗了：<br>
+∫240f(t)g(24−t)dt∫024f(t)g(24−t)dt<br>
+這就是連續的卷積。</p>
+<p>4 圖像處理<br>
+4.1 原理</p>
+<p>有這麼一副圖像，可以看到，圖像上有很多噪點：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213200395?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213200395" data-loaded="true"></p>
+<p>高頻信號，就好像平地聳立的山峯：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213226378?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213226378" data-loaded="true"></p>
+<p>看起來很顯眼。</p>
+<p>平滑這座山峯的辦法之一就是，把山峯刨掉一些土，填到山峯周圍去。用數學的話來說，就是把山峯周圍的高度平均一下。</p>
+<p>平滑後得到：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213308721?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213308721" data-loaded="true"></p>
+<p>4.2 計算</p>
+<p>卷積可以幫助實現這個平滑算法。</p>
+<p>有噪點的原圖，可以把它轉爲一個矩陣：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213449259?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213449259" data-loaded="true"></p>
+<p>然後用下面這個平均矩陣（說明下，原圖的處理實際上用的是正態分佈矩陣，這裏爲了簡單，就用了算術平均矩陣）來平滑圖像：</p>
+<p>g=⎡⎣⎢⎢191919191919191919⎤⎦⎥⎥g=[191919191919191919]</p>
+<p>記得剛纔說過的算法，把高頻信號與周圍的數值平均一下就可以平滑山峯。</p>
+<p>比如我要平滑a1,1a1,1 點，就在矩陣中，取出a1,1a1,1點附近的點組成矩陣 f ,和 g 進行卷積計算後，再填回去<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213653640?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213653640" data-loaded="true"></p>
+<p>要注意一點，爲了運用卷積， g 雖然和 f 同維度，但下標有點不一樣：<br><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213724611?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213724611" data-loaded="true"></p>
+<p><img alt="這裏寫圖片描述" class="has lazyload" referrerpolicy="no-referrer" data-original="https://pic1.xuehuaimg.com/proxy/csdn/https://img-blog.csdn.net/20171205213905706?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvYml0Y2FybWFubGVl/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" src="./02_files/20171205213905706" data-loaded="true"></p>
+<p>寫成卷積公式就是：</p>
+<p>(f∗g)(1,1)=∑k=02∑h=02f(h,k)g(1−h,1−k)(f∗g)(1,1)=∑k=02∑h=02f(h,k)g(1−h,1−k)</p>
+<p>要求c4,5c4,5，一樣可以套用上面的卷積公式。</p>
+<p>這樣相當於實現了 g 這個矩陣在原來圖像上的划動（準確來說，下面這幅圖把 g 矩陣旋轉了180∘180∘ ）：</p>
+<h2 id="6另外一個關於卷積的有意思的解釋"><a name="t6"></a>6.另外一個關於卷積的有意思的解釋</h2>
+<p>看了好多關於卷積的答案，看到這個例子才徹底地理解了這個過程～<br>
+關於卷積的一個血腥的講解<br>
+比如說你的老闆命令你幹活，你卻到樓下打檯球去了，後來被老闆發現，他非常氣憤，扇了你一巴掌（注意，這就是輸入信號，脈衝），於是你的臉上會漸漸地（賤賤地）鼓起來一個包，你的臉就是一個系統，而鼓起來的包就是你的臉對巴掌的響應，好，這樣就和信號系統建立起來意義對應的聯繫。下面還需要一些假設來保證論證的嚴謹：假定你的臉是線性時不變系統，也就是說，無論什麼時候老闆打你一巴掌，打在你臉的同一位置（這似乎要求你的臉足夠光滑，如果你說你長了很多青春痘，甚至整個臉皮處處連續處處不可導，那難度太大了，我就無話可說了哈哈），你的臉上總是會在相同的時間間隔內鼓起來一個相同高度的包來，並且假定以鼓起來的包的大小作爲系統輸出。好了，那麼，下面可以進入核心內容——卷積了！<br>
+如果你每天都到地下去打檯球，那麼老闆每天都要扇你一巴掌，不過當老闆打你一巴掌後，你5分鐘就消腫了，所以時間長了，你甚至就適應這種生活了……如果有一天，老闆忍無可忍，以0.5秒的間隔開始不間斷的扇你的過程，這樣問題就來了，第一次扇你鼓起來的包還沒消腫，第二個巴掌就來了，你臉上的包就可能鼓起來兩倍高，老闆不斷扇你，脈衝不斷作用在你臉上，效果不斷疊加了，這樣這些效果就可以求和了，結果就是你臉上的包的高度隨時間變化的一個函數了（注意理解）；如果老闆再狠一點，頻率越來越高，以至於你都辨別不清時間間隔了，那麼，求和就變成積分了。可以這樣理解，在這個過程中的某一固定的時刻，你的臉上的包的鼓起程度和什麼有關呢？和之前每次打你都有關！但是各次的貢獻是不一樣的，越早打的巴掌，貢獻越小，所以這就是說，某一時刻的輸出是之前很多次輸入乘以各自的衰減係數之後的疊加而形成某一點的輸出，然後再把不同時刻的輸出點放在一起，形成一個函數，這就是卷積，卷積之後的函數就是你臉上的包的大小隨時間變化的函數。本來你的包幾分鐘就可以消腫，可是如果連續打，幾個小時也消不了腫了，這難道不是一種平滑過程麼？反映到劍橋大學的公式上，f(a)就是第a個巴掌，g(x-a)就是第a個巴掌在x時刻的作用程度，乘起來再疊加就ok了，大家說是不是這個道理呢？我想這個例子已經非常形象了，你對卷積有了更加具體深刻的瞭解了嗎？</p>
+<p>參考資料：<br>
+1.<a href="https://www.zhihu.com/question/22298352" rel="nofollow" target="_blank">https://www.zhihu.com/question/22298352</a><br>
+2.<a href="http://blog.csdn.net/yeeman/article/details/6325693" rel="nofollow" target="_blank">http://blog.csdn.net/yeeman/article/details/6325693</a><br>
+3.<a href="http://muchong.com/html/201001/1773707.html" rel="nofollow" target="_blank">http://muchong.com/html/201001/1773707.html</a><br>
+4.<a href="https://www.zhihu.com/question/39753115" rel="nofollow" target="_blank">https://www.zhihu.com/question/39753115</a><br>
+5.<a href="https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C" rel="nofollow" target="_blank">https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C</a><br>
+6.<a href="http://blog.csdn.net/tiandijun/article/details/40080823" rel="nofollow" target="_blank">http://blog.csdn.net/tiandijun/article/details/40080823</a><br>
+7.<a href="https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF%E5%AE%9A%E7%90%86" rel="nofollow" target="_blank">https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF%E5%AE%9A%E7%90%86</a><br>
+8.<a href="https://www.zhihu.com/question/19714540/answer/14738630" rel="nofollow" target="_blank">https://www.zhihu.com/question/19714540/answer/14738630</a> 如何理解傅里葉變換公式？</p>
+<p>--------------------- 本文來自 bitcarmanlee 的CSDN 博客 ，全文地址請點擊：https://blog.csdn.net/bitcarmanlee/article/details/54729807?utm_source=copy</p>
+</div>
+<div class="ads-article-bottom-match">
+<ins class="adsbygoogle" style="display: block; height: 436px; overflow: hidden;" data-ad-format="autorelaxed" data-ad-client="ca-pub-2073744953016040" data-ad-slot="3534050590" data-adsbygoogle-status="done"><ins id="aswift_0_expand" style="display:inline-table;border:none;height:436px;margin:0;padding:0;position:relative;visibility:visible;width:872px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_0_anchor" style="display:block;border:none;height:436px;margin:0;padding:0;position:relative;visibility:visible;width:872px;background-color:transparent;"><iframe id="aswift_0" name="aswift_0" style="left:0;position:absolute;top:0;border:0;width:872px;height:436px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="872" height="436" frameborder="0" src="./02_files/ads.html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL3d3dy50d2Jsb2dzLm5ldC9hLzViYWZmNDU4MmI3MTc3NzgxYTBmN2JjOCJ9&quot;}" data-google-container-id="a!1" data-google-query-id="CL_vi9OH2u8CFQI-vQodl8cLLA" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<ul class="tag-list">
+</ul>
+<div id="comment-form-wrapper">
+<div class="section-head">發表評論</div>
+<form id="comment-form" class="comment-form" action="https://www.twblogs.net/account/register" method="post">
+<input type="hidden" name="_xsrf" value="2|f949aa5c|365d70a40d48421a3165fc62ab78ac65|1617175700">
+<input name="post_id" value="5baff4582b7177781a0f7bc8" class="hidden">
+<textarea autocomplete="off" rows="2" cols="50" placeholder="登錄以後才評論..." disabled=""></textarea>
+<a class="login" href="https://www.twblogs.net/a/5baff4582b7177781a0f7bc8#">登录</a>
+</form>
+</div>
+<div id="article-comments">
+<div class="section-head">所有評論</div>
+<div id="comment-list">
+還沒有人評論，想成為第一個評論的人麼? 請在上方評論欄輸入並且點擊發布.
+</div>
+</div>
+<div class="related-post-list">
+<div class="section-head">相關文章</div>
+<div class="related-posts">
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b60e83ad4e1f40b2664" target="_blank" title="數字浪潮奔湧，企業如何突破思維的牆，找到清晰的數字化轉型路徑">
+數字浪潮奔湧，企業如何突破思維的牆，找到清晰的數字化轉型路徑
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b60e83ad4e1f40b2664" target="_blank" title="數字浪潮奔湧，企業如何突破思維的牆，找到清晰的數字化轉型路徑">
+柯達曾是世界上最大的膠捲出品公司，全球員工數量曾一度達到14.5萬人，在1975年就發明了世界上第一臺數碼相機，可是科達並沒有利用好這項發明。原因有兩個：一是擔心數碼相機會對膠捲的銷量產生不利影響；二是柯達公司認爲數碼相機在未來會被智能產品
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bb7eae62b71773c78f41827">吳釋若</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:57:20</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b605c734b15c5517450" target="_blank" title="從窮小子到世界500強企業掌門人，稻盛和夫：修煉一顆利他之心">
+從窮小子到世界500強企業掌門人，稻盛和夫：修煉一顆利他之心
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b605c734b15c5517450" target="_blank" title="從窮小子到世界500強企業掌門人，稻盛和夫：修煉一顆利他之心">
+華爲創始人任正非：“其實一個人的命運，掌握在自己手上。”
+聯想的創始人柳傳志：“真正的理解是有理想，而不是理想化，也會讓你們以強大的心臟面對未來，我想會受益無窮。”
+格力的鐵娘子董明珠：“生活就是這樣，總會有烏雲遮眼的時候，但也總會有云開
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bb7eae62b71773c78f41827">吳釋若</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:57:20</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b4c80ebad758ca2ae64" target="_blank" title="感孕而生，清靜專一——姜嫄（4）">
+感孕而生，清靜專一——姜嫄（4）
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b4c80ebad758ca2ae64" target="_blank" title="感孕而生，清靜專一——姜嫄（4）">
+《列女傳》詩云：“赫赫姜嫄，其德不回，上帝是依。01、踩足跡，生后稷姜嫄，姜姓，名嫄，有邰氏部落（今陝西眉縣邰亭）人。上古時期歷史人物，帝嚳元妃，周族始祖后稷之母。在帝嚳執政的時候，有一次姜嫄外出，踩到了巨人的足跡，回來後發現自己已經懷孕，
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:57:00</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b4c76e90419c5c0ca42" target="_blank" title="連載小說｜寡情（1）">
+連載小說｜寡情（1）
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b4c76e90419c5c0ca42" target="_blank" title="連載小說｜寡情（1）">
+有的人一生就是一首悲情的好歌，聽着聽着就讓人悲傷。從夏青的葬禮上回來，我便躺在沙發抽菸。隨着煙霧一圈一圈的散開，我彷彿看到了夏青，她依舊是一副倔強的模樣。回想起剛剛在葬禮上發生的一幕，我內心依然翻滾。原本一切都按照流程在繼續，參加葬禮的人並
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:57:00</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b4cb586f7f7096016e0" target="_blank" title="文藝到爆炸的句子，一定要收藏起來！">
+文藝到爆炸的句子，一定要收藏起來！
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b4cb586f7f7096016e0" target="_blank" title="文藝到爆炸的句子，一定要收藏起來！">
+1.你本無意穿堂風，偏偏孤倨引山洪。2.因過竹苑逢僧話，又得浮生半日閒。——李涉3.自童年起，我便獨自一人，照顧着歷代星辰。——白鶴林《孤獨》4.你沒有如期歸來，而這正是離別的意義。——北島《白日夢》5.歲月不饒人，我亦未曾饒過歲月。——木
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:57:00</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b428f7bfc2d91e22579" target="_blank" title="“女婿，下輩子一定記得要做我的兒子”，“媽，這輩子我就是你的兒子”">
+“女婿，下輩子一定記得要做我的兒子”，“媽，這輩子我就是你的兒子”
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b428f7bfc2d91e22579" target="_blank" title="“女婿，下輩子一定記得要做我的兒子”，“媽，這輩子我就是你的兒子”">
+本文爲一個讀者提供的真實故事，讀完潸然淚下。以下全文我就以讀者的角度來給大家講述。前幾天，我親眼看見村東頭的一家人在路邊大吵大鬧。其實，關於他們家的紛爭，早就在村裏傳開了。這次紛爭源於丈母孃個女婿之間，其實還是怪她不爭氣得女兒。她女兒人比較
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:50</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b4276e90419c5c0ca41" target="_blank" title="2021年奮鬥的五十句話送給你">
+2021年奮鬥的五十句話送給你
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b4276e90419c5c0ca41" target="_blank" title="2021年奮鬥的五十句話送給你">
+1．你生命中所發生的一切，都是你吸引來的。2．我想什麼，我就能得到什麼！3．宇宙中最強有力的法則就是吸引力法則。4．同類相吸。5．思想變成實物。6．改變了思想，就改變了命運！7．所有美好的思想都是強有力的，所有負面的思想都是脆弱無力。8．主
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:50</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b42de73efd2a2251e3c" target="_blank" title="履大跡生伏羲——華胥（3）">
+履大跡生伏羲——華胥（3）
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b42de73efd2a2251e3c" target="_blank" title="履大跡生伏羲——華胥（3）">
+在母系氏族社會，人們常常“只知其母，不知其父”。《楚辭·天問》裏曾提到：“女岐無合夫，焉取九子?”那時因盛行族外婚，男女關係不穩定，女子掌握着氏族的權力，也掌握着婚配的主動權，也就是女人可以隨心所欲的找男人。甚至不找男人也能生孩子，比如華胥
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:50</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b42753b6adabf6d19ad" target="_blank" title="假如我有一個億，我想做什麼?">
+假如我有一個億，我想做什麼?
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b42753b6adabf6d19ad" target="_blank" title="假如我有一個億，我想做什麼?">
+01昨天刷到一篇文章，寫得是師生聚會的場景。白髮蒼蒼的老師喝醉了酒，對着學生們說你們不管上班多忙賺錢多忙，都別忘了搞學術。半醉半醒的班長說，如果我有十萬，我不買新衣不喫大餐，我先給評審組一人送個禮物，爭取他們早日過了我們的選題。接着一位同學
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42753b6adabf6d19ac">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:50</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b42b586f7f7096016df" target="_blank" title="非常現實的50條戀愛真理：一定要牢記心裏！">
+非常現實的50條戀愛真理：一定要牢記心裏！
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b42b586f7f7096016df" target="_blank" title="非常現實的50條戀愛真理：一定要牢記心裏！">
+1.不聯繫你是真的不喜歡你，不是因爲忙2.一見鍾情都是見色起義，日久生情都是權衡利弊3.學會及時止損，三觀合不來立馬分開，別耗着4.別看對方說什麼，要看對方做什麼5.爲自己的每一個選擇買單，虧要自己喫6.別指望戀愛能讓你的生活更好一點7.秀
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/60642b42b586f7f7096016de">白玫瑰的詩與遠方</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:50</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b38247428d2e1e5c516" target="_blank" title="上海：一個人三天三夜的窮遊之旅">
+上海：一個人三天三夜的窮遊之旅
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b38247428d2e1e5c516" target="_blank" title="上海：一個人三天三夜的窮遊之旅">
+你有沒有一次說走就走的旅行？我有，那就是上海。端午節前夕，想着三天假期要待在學校看劇混時間，就覺得人生很沒有意義。臨時決定去上海旅遊，但是我並沒有資金，只好選擇窮遊。我用560元窮游上海，你相信嗎？車費 94：周莊―上海 31+34=65
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5ee63b525537ec640b71189f">東吳H</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:56:40</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b05247428d2e1e5c503" target="_blank" title="春天是一個過程">
+春天是一個過程
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b05247428d2e1e5c503" target="_blank" title="春天是一個過程">
+她取了觀望的態度先是仰視平視最後是俯視欲 眼見春天的到來在一通肆意妄爲之後 一路奔進夏天 而到了夏天她也打算取事不關己高高掛起的心思任憑自己被炎炎夏日弄得汗流浹背嗯 ... 這麼跟你說吧一年四季裏唯有到了秋天她是興致盎然躍躍欲試的時間你慢慢
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bd4ef952b717757cd8e294b">那個長江</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:55:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b058f7bfc2d91e22562" target="_blank" title="三月的最後一個週末">
+三月的最後一個週末
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b058f7bfc2d91e22562" target="_blank" title="三月的最後一個週末">
+天氣預報又一次發出警告沙塵還會降臨級別還是黃色的還有霧霾還有雨還有風總之在周未的兩天裏天空是陰鬱的 噢 何止天空是陰鬱的
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bd4ef952b717757cd8e294b">那個長江</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:55:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b0580ebad758ca2ae4b" target="_blank" title="誰在販賣教育焦慮">
+誰在販賣教育焦慮
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b0580ebad758ca2ae4b" target="_blank" title="誰在販賣教育焦慮">
+這是一個好問題耶如果是我回答我會敲着黑板劃重點說你想你想想你想想呀肯定是資本資本就是罪魁禍首…今天的作業就是同學們回家後與自己的父母討論一下資本是如何製造並販賣教育焦慮的你們的家長又是如何被割韭菜的毎年被割了多少韭菜等等
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bd4ef952b717757cd8e294b">那個長江</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:55:49</span>
+</div>
+</div>
+<div class="list-item">
+<h4 class="list-item-title">
+<a href="https://www.twblogs.net/a/60642b05753b6adabf6d1991" target="_blank" title="在人行過街天橋上">
+在人行過街天橋上
+</a>
+</h4>
+<p class="post-excerpt">
+<a href="https://www.twblogs.net/a/60642b05753b6adabf6d1991" target="_blank" title="在人行過街天橋上">
+她駐下足把周邊的局勢四下觀望了 一下往上往下往東往西往北往南天 均藍藍 均無雲遠處似有沙塵捲土重來熙熙攘攘的市井讓人有一絲絲的不安似乎AI（人工智能）要上街 有什麼不好的事兒要發生家 就在不遠處拐個彎就到還是回家…好呀回家回家…快快回家呵…
+</a>
+</p>
+<div class="post-meta">
+<img src="./02_files/user.svg">
+<a href="https://www.twblogs.net/u/5bd4ef952b717757cd8e294b">那個長江</a>
+<img src="./02_files/clock.svg">
+<span>2021-03-31 15:55:49</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="secondary-content feed" style="height: auto !important; position: fixed; bottom: 0px; left: 1265.5px;">
+<div class="sidebar author-info">
+<a href="https://www.twblogs.net/u/5baff44d2b7177781a0f7bb4" target="_blank">
+<span id="user-icon">
+落
+</span>
+落叶大乔木
+</a>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+24小時熱門文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+</ul>
+</section>
+</div>
+</div>
+</div>
+<div class="right_sidebar" style="height: auto !important;">
+<ins class="adsbygoogle" style="display: block; height: 600px; overflow: hidden;" data-ad-client="ca-pub-2073744953016040" data-ad-slot="3358264730" data-ad-format="auto" data-full-width-responsive="true" data-adsbygoogle-status="done"><ins id="aswift_1_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:272px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_1_anchor" style="display: block; border: none; height: 600px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 272px; background-color: transparent; overflow: visible;"><iframe id="aswift_1" name="aswift_1" style="left:0;position:absolute;top:0;border:0;width:272px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="272" height="600" frameborder="0" src="./02_files/ads(1).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL3d3dy50d2Jsb2dzLm5ldC9hLzViYWZmNDU4MmI3MTc3NzgxYTBmN2JjOCJ9&quot;}" data-google-container-id="a!2" data-google-query-id="CMG6jL6H2u8CFYmB6QUdR4wD8Q" data-load-complete="true"></iframe></ins></ins></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+最新文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5cfec6b8bd9eee14029f3f59" target="_blank" class="news-link">
+數據集中標籤.mat轉.xml
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5cd319a1bd9eee6726c95091" target="_blank" class="news-link">
+深度學習代碼解析
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5cd1adacbd9eee6726c928f1" target="_blank" class="news-link">
+訓練相關
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c9a4f3cbd9eee434fc6cacb" target="_blank" class="news-link">
+深度CNN可視化工具
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c950b98bd9eee4a0d08e4e5" target="_blank" class="news-link">
+QT入門學習
+</a>
+</h5>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</div>
+<div class="right_sidebar">
+<div>
+<div class="section-head">
+最新評論文章
+</div>
+<div>
+<section class="section-item">
+<ul>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c4b177ebd9eee6e7e06bf11" target="_blank" class="news-link">
+Java 認證考試 OCAJP 經驗總結
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5be244e72b717720b51d2785" target="_blank" class="news-link">
+豌豆莢APP 行爲審計
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5d7ee682bd9eee5327ffe640" target="_blank" class="news-link">
+Studio 3T for mongoDB註冊碼 算法註冊機
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c1f9d4ebd9eee16b4a72b23" target="_blank" class="news-link">
+ZUKEN軟件CR5000/8000 最新2018破解教程（附破解軟件）
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5d3d840dbd9eee517422169e" target="_blank" class="news-link">
+看美劇練口語小結 摩登家庭(ModernFamily) S01E04
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5d7e6b8dbd9eee5327ffd253" target="_blank" class="news-link">
+win10 藍屏分析-fwpkclnt.sys ( fwpkclnt+1361 )
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5c6fec6ebd9eee7f0733bf15" target="_blank" class="news-link">
+Windows7 開機桌面黑屏故障終極解決方案
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5fa914be6d0a0307f831cbce" target="_blank" class="news-link">
+中區約炮 line:57963 Telegram:md08080 台中砲台.西屯外送茶.大雅找美女
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5b825e6f2b717766a1e7f22f" target="_blank" class="news-link">
+心血來潮拆華碩X54H筆記本(打算升級)
+</a>
+</h5>
+</li>
+<li>
+<h5>
+<a href="https://www.twblogs.net/a/5d7feb52bd9eee541c348f74" target="_blank" class="news-link">
+配置Visual Studio Code用作51單片機C51代碼編輯器，替代KeilC編輯代碼事半功倍！
+</a>
+</h5>
+</li>
+</ul>
+</section>
+</div>
+</div>
+</div><div class="google-auto-placed" style="width: 100%; height: auto; clear: both; text-align: center;"><ins data-ad-format="auto" class="adsbygoogle adsbygoogle-noablate" data-ad-client="ca-pub-2073744953016040" data-adsbygoogle-status="done" style="display: block; margin: 10px auto 8px; background-color: transparent; height: 600px; overflow: hidden;"><ins id="aswift_3_expand" style="display:inline-table;border:none;height:600px;margin:0;padding:0;position:relative;visibility:visible;width:300px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_3_anchor" style="display: block; border: none; height: 600px; margin: 0px; padding: 0px; position: relative; visibility: visible; width: 300px; background-color: transparent; overflow: visible;"><iframe id="aswift_3" name="aswift_3" style="left:0;position:absolute;top:0;border:0;width:300px;height:600px;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" width="300" height="600" frameborder="0" src="./02_files/ads(2).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL3d3dy50d2Jsb2dzLm5ldC9hLzViYWZmNDU4MmI3MTc3NzgxYTBmN2JjOCJ9&quot;}" data-google-container-id="a!4" data-google-query-id="CP2Xrb6H2u8CFZyC6QUdx8QGnQ" data-load-complete="true"></iframe></ins></ins></ins></div>
+</div><div class="secondary-content feed" style="height: auto !important;"></div>
+</div>
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog">
+<div class="modal-dialog">
+<div class="modal-content">
+<div class="modal-body">
+<img src="https://www.twblogs.net/a/5baff4582b7177781a0f7bc8" class="img-responsive">
+</div>
+</div>
+</div>
+</div>
+<footer>
+</footer>
+</div>
+<script>
+var post_id = "5baff4582b7177781a0f7bc8";
+
+var token = getCookie('_xsrf');
+</script>
+<script>
+$.ajax({
+url: '/views',
+headers: {'X-XSRFToken' : token },
+data: {post_id: post_id },
+type: "POST",
+});
+</script>
+<script src="./02_files/custom_fix.js.下載"></script>
+<script>
+$(document).ready(function() {
+$('pre code').each(function(i, block) {
+hljs.highlightBlock(block);
+});
+});
+</script>
+<script src="./02_files/load_comments.js.下載"></script>
+<script>
+$(".article-content img").click(
+function() {
+let width;
+let img_src = $(this).attr('src');
+let img_width = this.naturalWidth;
+// let height = this.naturalHeight;
+let window_width = $(window).width() * 0.8;
+console.log(img_width,window_width)
+if (img_width <= window_width) {
+$("#myModal").addClass('modal-small')
+width = img_width;
+} else {
+$("#myModal").addClass('modal-big')
+width = window_width;
+}
+$("#myModal img").attr('src',img_src);
+$("#myModal .modal-dialog img").css('width',width);
+$("#myModal .modal-dialog img").css('height','auto');
+$('#myModal').modal('show');
+}
+)
+$('#myModal').click(
+function() {
+$('#myModal').modal('hide')
+}
+)
+const observer = lozad('img', {
+load: function(el) {
+const src = el.getAttribute('data-original')
+if (src) {
+el.src = src;
+}
+}
+});
+observer.observe();
+</script>
+<style>
+.modal-big .modal-dialog {
+position: relative;
+display: table;
+overflow-y: auto;
+overflow-x: auto;
+width: auto;
+}
+.modal-big .modal.show .modal-dialog {
+top: 50%;
+transform: translateY(-50%);
+}
+.modal-big .modal-body {
+text-align: center;
+}
+.modal-small.modal {
+text-align: center;
+padding: 0!important;
+}
+.modal-small.modal:before {
+content: '';
+display: inline-block;
+height: 100%;
+vertical-align: middle;
+margin-right: -4px;
+}
+.modal-small .modal-dialog {
+display: inline-block;
+text-align: left;
+vertical-align: middle;
+max-width: 100%;
+}
+.modal-content {
+cursor: zoom-out;
+}
+</style>
+
+<ins class="adsbygoogle adsbygoogle-noablate" data-adsbygoogle-status="done" style="display: none !important; overflow: hidden;"><ins id="aswift_2_expand" style="display:inline-table;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;" tabindex="0" title="Advertisement" aria-label="Advertisement"><ins id="aswift_2_anchor" style="display:block;border:none;height:0px;margin:0;padding:0;position:relative;visibility:visible;width:0px;background-color:transparent;"><iframe id="aswift_2" name="aswift_2" style="left:0;position:absolute;top:0;border:0;width:undefinedpx;height:undefinedpx;" sandbox="allow-forms allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation-by-user-activation" frameborder="0" src="./02_files/ads(3).html" marginwidth="0" marginheight="0" vspace="0" hspace="0" allowtransparency="true" scrolling="no" allowfullscreen="true" trusttoken="{&quot;type&quot;:&quot;send-redemption-record&quot;,&quot;issuers&quot;:[&quot;https://adservice.google.com&quot;],&quot;refreshPolicy&quot;:&quot;none&quot;,&quot;signRequestData&quot;:&quot;include&quot;,&quot;includeTimestampHeader&quot;:true,&quot;additionalSignedHeaders&quot;:[&quot;sec-time&quot;,&quot;Sec-Redemption-Record&quot;],&quot;additionalSigningData&quot;:&quot;eyJ1cmwiOiJodHRwczovL3d3dy50d2Jsb2dzLm5ldC9hLzViYWZmNDU4MmI3MTc3NzgxYTBmN2JjOCJ9&quot;}" data-google-container-id="a!3" data-load-complete="true"></iframe></ins></ins></ins><table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 220px; display: none; top: 45px; left: 937px; position: absolute;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><table cellspacing="0" cellpadding="0" class="gstl_51 gssb_c" style="width: 2px; display: none; top: 3px; left: -1px; position: absolute;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><iframe id="google_osd_static_frame_9530533395190" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./02_files/saved_resource(2).html"></iframe></body><iframe id="google_esf" name="google_esf" src="./02_files/zrt_lookup.html" data-ad-client="ca-pub-2073744953016040" style="display: none;"></iframe></html>
